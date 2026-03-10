@@ -19,10 +19,7 @@ Use these workspace expectations:
 Required output:
 
 - Create or update one module README under `materials/<module-name>/README.md`
-- Create a slide outline under `materials/<module-name>/slides/slide-outline.md`
-- Create a presenter deck under `materials/<module-name>/slides/presenter-deck.md`
 - Create a lab README under `labs/<module-name>/README.md`
-- Create starter and solution notes under `labs/<module-name>/starter/README.md` and `labs/<module-name>/solution/README.md`
 - Include in the module README: learning objectives, prerequisites and setup, walkthrough, hands-on lab, validation checklist, reflection tasks
 - Include suggested learner prompts they can try in VS Code
 - Include at least one common failure mode and fix

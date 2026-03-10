@@ -1,6 +1,6 @@
 ---
 name: "Curriculum Writer"
-description: "Create or revise training modules, slide decks, presenter notes, and instructional documentation for this workspace"
+description: "Create or revise training modules and instructional documentation for this workspace"
 ---
 Create or revise training content for this workspace.
 
@@ -19,7 +19,7 @@ When writing or revising content:
 
 - Keep the language direct and beginner-friendly for core modules, precise for advanced modules
 - Make learning objectives, validation steps, and observable outputs explicit
-- Align README content, labs, and slide decks for the same module
+- Align README content and labs for the same module
 - Avoid generic examples when a more realistic BI, DS, or DE example would teach better
 - Preserve the established module structure unless the user asks to change it
 - Enforce markdown lint rules: MD022, MD032, MD034, MD047
@@ -27,11 +27,7 @@ When writing or revising content:
 Default deliverables when relevant:
 
 - `materials/<module>/README.md`
-- `materials/<module>/slides/slide-outline.md`
-- `materials/<module>/slides/presenter-deck.md`
 - `labs/<module>/README.md`
-- `labs/<module>/starter/README.md`
-- `labs/<module>/solution/README.md`
 
 After creating or revising:
 

@@ -33,11 +33,7 @@ Use a consistent module shape for all training assets:
 When creating a new module, prefer this folder pattern:
 
 - `materials/<module-name>/README.md`
-- `materials/<module-name>/slides/slide-outline.md`
-- `materials/<module-name>/slides/presenter-deck.md`
 - `labs/<module-name>/README.md`
-- `labs/<module-name>/starter/README.md`
-- `labs/<module-name>/solution/README.md`
 - `assets/<module-name>/` (optional, for diagrams or media)
 
 ## Writing And Style

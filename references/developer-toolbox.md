@@ -221,19 +221,6 @@ These are optional but recommended for advanced workflows (Module 08).
 MCP servers are configured in VS Code settings and require Agent mode to use.
 For more details, see the [GitHub Copilot Reimagine Overview](github-copilot-reimagine-overview.md).
 
-## Presentation Tools
-
-Two Python scripts generate slide decks from presenter-deck markdown files:
-
-| Script | Output | Command |
-|---|---|---|
-| `generate_revealjs.py` | `html-slides/*.html` (browser-based) | `.venv\Scripts\python.exe generate_revealjs.py` |
-| `generate_pptx.py` | `pptx-output/*.pptx` (PowerPoint) | `.venv\Scripts\python.exe generate_pptx.py` |
-
-The Reveal.js HTML slides require no extra install -- they load from CDN when opened in a browser. Press `S` during a presentation for speaker notes.
-
-The PPTX generator requires `python-pptx` in the virtual environment (installed during Python setup above).
-
 ## Troubleshooting
 
 | Problem | Cause | Fix |

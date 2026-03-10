@@ -197,14 +197,124 @@ Use the accompanying lab to practice:
 Lab files:
 
 - `labs/01-beginner-copilot-agent-best-practices/README.md`
-- `labs/01-beginner-copilot-agent-best-practices/starter/README.md`
-- `labs/01-beginner-copilot-agent-best-practices/solution/README.md`
 
 ## Audience-Specific Examples
 
-- BI example: ask Copilot to improve a lab README for a Power BI or SQL reporting workflow without changing the business rules.
-- DS example: ask Copilot to explain a notebook workflow, summarize model evaluation steps, or draft a reproducible experiment checklist.
-- DE example: ask Copilot to review a pipeline README, clarify data movement steps, or generate a safe validation checklist for schema or job changes.
+Each example below shows a before and after for one AI-assisted improvement. Review the diff critically before accepting.
+
+### BI Example -- SQL KPI View
+
+Scenario: Copilot improves a sales KPI view. Review the diff before approving.
+
+**Before:**
+
+```sql
+CREATE VIEW vw_sales_kpis AS
+SELECT
+    region,
+    SUM(revenue) AS revenue,
+    SUM(cost) AS cost,
+    SUM(revenue) - SUM(cost) AS margin
+FROM sales
+GROUP BY region;
+```
+
+**After (AI-improved):**
+
+```sql
+CREATE VIEW vw_sales_kpis AS
+SELECT
+    region,
+    SUM(revenue)              AS total_revenue,
+    SUM(cost)                 AS total_cost,
+    SUM(revenue) - SUM(cost)  AS gross_margin,
+    CASE
+        WHEN SUM(revenue) = 0 THEN 0
+        ELSE ROUND((SUM(revenue) - SUM(cost))
+             / SUM(revenue) * 100, 2)
+    END                       AS gross_margin_pct
+FROM sales
+GROUP BY region;
+```
+
+Review question: Did the AI change the definition of margin or just add clarity? If your finance team approves the term `margin`, the rename to `gross_margin` could break downstream reports.
+
+### DS Example -- Notebook Cell
+
+Scenario: Copilot adds reproducibility guards to a churn-model notebook cell.
+
+**Before:**
+
+```python
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+
+df = pd.read_csv("churn_data.csv")
+X_train, X_test, y_train, y_test = train_test_split(
+    df.drop("churned", axis=1), df["churned"], test_size=0.2
+)
+model = RandomForestClassifier(n_estimators=100)
+model.fit(X_train, y_train)
+print(f"Accuracy: {model.score(X_test, y_test):.3f}")
+```
+
+**After (AI-improved):**
+
+```python
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+
+RANDOM_SEED = 42
+DATA_PATH = "churn_data.csv"  # v2.1, exported 2026-02-15
+
+df = pd.read_csv(DATA_PATH)
+print(f"Rows: {len(df)}, Columns: {list(df.columns)}")
+
+X_train, X_test, y_train, y_test = train_test_split(
+    df.drop("churned", axis=1), df["churned"],
+    test_size=0.2, random_state=RANDOM_SEED
+)
+model = RandomForestClassifier(
+    n_estimators=100, random_state=RANDOM_SEED
+)
+model.fit(X_train, y_train)
+print(f"Accuracy: {model.score(X_test, y_test):.3f}")
+```
+
+Review question: Is seed 42 your team standard? Is that really data version 2.1? The AI guessed plausible values -- the reviewer must verify.
+
+### DE Example -- Pipeline Task
+
+Scenario: Copilot adds retry logic and operational notes to an Airflow task.
+
+**Before:**
+
+```python
+load_orders = PythonOperator(
+    task_id="load_orders",
+    python_callable=load_orders_to_warehouse,
+    dag=dag,
+)
+```
+
+**After (AI-improved):**
+
+```python
+load_orders = PythonOperator(
+    task_id="load_orders",
+    python_callable=load_orders_to_warehouse,
+    retries=3,
+    retry_delay=timedelta(minutes=5),
+    dag=dag,
+)
+# Upstream: staging.raw_orders must be fresh (< 6 hrs)
+# On failure: check Airflow logs, verify source system
+# Escalation: page on-call DE after 3 retries exhausted
+```
+
+Review question: Does your team use 3 retries or 2? Is 5 minutes the right delay for your data volume? Is the escalation path accurate?
 
 ## Validation Checklist
 
@@ -228,8 +338,3 @@ See the shared reference files:
 
 - [Beginner Copilot Agent Best Practices](../../references/copilot-agent-beginner-best-practices.md)
 - [GitHub Copilot Reimagine Overview](../../references/github-copilot-reimagine-overview.md)
-
-The slide assets for this module are here:
-
-- `materials/01-beginner-copilot-agent-best-practices/slides/slide-outline.md`
-- `materials/01-beginner-copilot-agent-best-practices/slides/presenter-deck.md`

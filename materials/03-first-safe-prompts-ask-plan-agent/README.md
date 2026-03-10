@@ -235,6 +235,100 @@ Expected observable output:
 - One constrained Agent result or draft
 - A short note explaining why the Agent prompt was safe enough to run
 
+## Prompt Quality Examples
+
+Each example below shows what a weak prompt and a specific prompt produce. The specific prompt gives the AI enough constraints to produce reviewable output.
+
+### BI Example -- DAX Measure Improvement
+
+**Weak prompt:** `make this measure better`
+
+**AI output from weak prompt:**
+
+```dax
+Gross Margin =
+SUMX(Sales, Sales[Revenue] - Sales[Cost])
+```
+
+**Specific prompt:** `Add error handling for zero-revenue months and a comment explaining the business definition. Do not change the calculation logic.`
+
+**AI output from specific prompt:**
+
+```dax
+-- Gross Margin: Revenue minus Cost of Goods Sold.
+-- Finance-approved definition as of Q1 2026.
+Gross Margin =
+VAR _revenue = SUM(Sales[Revenue])
+VAR _cost = SUM(Sales[Cost])
+RETURN
+    IF(_revenue = 0, BLANK(), _revenue - _cost)
+```
+
+Review question: Which output is safer to approve for a shared Power BI model?
+
+### DS Example -- Notebook Prerequisites Cell
+
+**Weak prompt:** `add documentation to this notebook`
+
+**AI output from weak prompt:**
+
+```python
+# This notebook trains a model and prints accuracy.
+```
+
+**Specific prompt:** `Add a prerequisites cell listing the Python version, required packages with versions, data source path, and random seed. Do not modify any existing cells.`
+
+**AI output from specific prompt:**
+
+```python
+"""
+Prerequisites
+-------------
+Python: 3.12+
+Packages: pandas==2.2, scikit-learn==1.5, matplotlib==3.9
+Data: data/churn_v2.1.csv (exported 2026-02-15)
+Random seed: 42 (used in train_test_split and model init)
+
+Run `pip install -r requirements.txt` before executing.
+"""
+```
+
+Review question: Which output helps a teammate reproduce the experiment?
+
+### DE Example -- SQL Pipeline Transform
+
+**Weak prompt:** `fix this query`
+
+**AI output from weak prompt:**
+
+```sql
+SELECT
+    order_id, customer_id, order_date,
+    COALESCE(amount, 0) AS amount
+FROM staging.raw_orders
+WHERE order_date >= '2026-01-01';
+```
+
+**Specific prompt:** `This query loads from staging.raw_orders into warehouse.fact_orders. Add a NULL check for order_id, filter out test accounts (customer_id < 1000), and add a comment noting the upstream dependency and refresh schedule.`
+
+**AI output from specific prompt:**
+
+```sql
+-- Source: staging.raw_orders (refreshed daily at 04:00 UTC)
+-- Upstream dependency: raw_orders must complete before this runs
+SELECT
+    order_id,
+    customer_id,
+    order_date,
+    COALESCE(amount, 0) AS amount
+FROM staging.raw_orders
+WHERE order_id IS NOT NULL       -- reject incomplete records
+  AND customer_id >= 1000        -- exclude test accounts
+  AND order_date >= '2026-01-01';
+```
+
+Review question: What would happen if the test-account filter was missing in your pipeline?
+
 ## Validation Checklist
 
 - The learner can explain the difference between Ask, Edit, Plan, and Agent.

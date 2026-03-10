@@ -11,7 +11,7 @@ It produces training materials for technical teams learning to use GitHub Copilo
 
 - **Primary audiences**: business intelligence, data science, and data engineering teams.
 - **Assumed environments**: Windows, VS Code, GitHub or Azure DevOps repositories.
-- **Content types**: instructional READMEs, slide outlines, presenter decks, hands-on labs, and reference documents.
+- **Content types**: instructional READMEs, hands-on labs, and reference documents.
 
 ## Workspace Layout
 
@@ -24,13 +24,9 @@ AI Coding Agent Training/
     instructions/              # File-scoped instruction overlays (.instructions.md)
     prompts/                   # Reusable prompt templates (.prompt.md)
   assets/                  # Curriculum maps, diagrams, shared media
-  html-slides/             # Reveal.js HTML slide decks (generated)
   labs/<module-name>/      # Lab content: README.md, starter/, solution/
-  materials/<module-name>/ # Module content: README.md, slides/
-  pptx-output/             # PowerPoint slide decks (generated)
+  materials/<module-name>/ # Module content: README.md
   references/              # Shared reference documents and best-practice guides
-  generate_pptx.py         # Presenter-deck to styled PPTX converter
-  generate_revealjs.py     # Presenter-deck to Reveal.js HTML converter
   CONTRIBUTING.md          # Authoring standards for contributors
   README.md                # Root index with module list and sequence
 ```
@@ -47,11 +43,7 @@ AI Coding Agent Training/
 | Path | Purpose |
 | --- | --- |
 | `materials/<module>/README.md` | Instructional walkthrough with objectives, prerequisites, steps, validation, reflection |
-| `materials/<module>/slides/slide-outline.md` | Numbered slide titles and key points |
-| `materials/<module>/slides/presenter-deck.md` | Full slide content with speaker notes |
 | `labs/<module>/README.md` | Hands-on lab with scenario, tasks, prompts, observable outputs, validation |
-| `labs/<module>/starter/README.md` | Starting scenario and materials for learners |
-| `labs/<module>/solution/README.md` | Example solution and explanation |
 
 ### Required Sections
 
@@ -106,30 +98,6 @@ Until automated tooling is added, validate every change with:
 | `references/copilot-agent-approval-settings.md` | VS Code approval settings, YOLO mode profiles, and risk guidance |
 | `references/awesome-copilot-agents-for-presentation-improvement.md` | Review rubric and improvement strategies |
 | `CONTRIBUTING.md` | Full authoring standards |
-| `generate_revealjs.py` | Presenter-deck to Reveal.js HTML slide converter |
-| `generate_pptx.py` | Presenter-deck to styled PowerPoint converter |
-
-## Presentation Generation
-
-Two generator scripts convert `materials/*/slides/presenter-deck.md` files into presentation formats:
-
-- **Reveal.js HTML** (`html-slides/`): Modern browser-based slides with transitions, speaker notes (press `S`), and responsive design. Preferred for presenting.
-- **PowerPoint PPTX** (`pptx-output/`): Styled slides with colored bands, accent bars, and presenter notes. For teams that require .pptx files.
-
-```powershell
-# Generate Reveal.js HTML slides (requires no extra install)
-.venv/Scripts/python.exe generate_revealjs.py
-
-# Generate PowerPoint slides (requires python-pptx in .venv)
-.venv/Scripts/python.exe generate_pptx.py
-```
-
-Both scripts parse two presenter-deck markdown patterns:
-
-- `On-screen content:` / `Presenter notes:` (modules 01-07)
-- `Key points:` / `Presenter note:` (module 08)
-
-Re-run the scripts after editing any presenter deck to regenerate output.
 
 ## Things To Avoid
 
@@ -156,8 +124,4 @@ git commit -m "Your message here"
 
 # Push to the training branch
 git push origin HEAD:refs/heads/ai-coding-agent-training-20260309
-
-# Regenerate all presentation decks
-.venv/Scripts/python.exe generate_revealjs.py
-.venv/Scripts/python.exe generate_pptx.py
 ```

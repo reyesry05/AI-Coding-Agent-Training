@@ -27,11 +27,7 @@ Unless a module says otherwise, also assume:
 Every new module should normally include:
 
 - `materials/<module-name>/README.md`
-- `materials/<module-name>/slides/slide-outline.md`
-- `materials/<module-name>/slides/presenter-deck.md`
 - `labs/<module-name>/README.md`
-- `labs/<module-name>/starter/README.md`
-- `labs/<module-name>/solution/README.md`
 
 ## Required Sections For Material READMEs
 
