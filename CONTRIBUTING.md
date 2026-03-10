@@ -121,10 +121,16 @@ Before considering a module complete, verify:
 
 ## Git Conventions
 
-- Training content lives under the `AI Coding Agent Training/` subdirectory.
-- Stage only the training directory to avoid touching unrelated repo files.
+- This workspace is now a standalone repository.
+- The default branch is `main` unless the repository settings change.
 - Use imperative mood for commit messages, scoped to what changed.
-- Push to the working branch: `ai-coding-agent-training-20260309`.
+
+## Repository Visibility
+
+- This repository is currently intended to be public.
+- Only publish generic training material that does not contain Reyes Holdings-specific code, architecture, credentials, customer information, or internal operating details.
+- If a module becomes company-specific, either redact the sensitive content or move that material to a private repository.
+- Before publishing new content, confirm that examples, screenshots, and prompts do not reveal internal systems or private data.
 
 ## When To Update Workspace Instructions
 
@@ -151,4 +157,3 @@ When reviewing a new module, check:
 - Are validation steps observable?
 - Are the references sufficient and current?
 - Do all Markdown files pass the lint rules above?
-
