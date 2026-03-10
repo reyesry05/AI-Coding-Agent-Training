@@ -82,8 +82,8 @@ These rules are enforced across all Markdown files:
 
 ## Git And Branching
 
-- Repository: `reyesry05/AI-Coding-Agent-Training` on GitHub (corporate, public-facing).
-- The personal development repo (`stricher05/Research-AI-Architect`) is separate and not synced.
+- Repository: the corporate GitHub repository for this training project (public-facing).
+- A separate personal development repo exists and is not synced with the corporate repo.
 - Working branch for training: `ai-coding-agent-training-20260309`.
 - Commit messages: imperative mood, scoped to training content (e.g., "Add module 08 advanced curriculum").
 

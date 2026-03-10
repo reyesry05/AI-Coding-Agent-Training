@@ -101,8 +101,8 @@ When automation is introduced (for docs quality or lab validation), document can
 
 ## Git Conventions
 
-- Repository: `reyesry05/AI-Coding-Agent-Training` on GitHub (corporate).
-- The personal development repo (`stricher05/Research-AI-Architect`) is separate and not synced.
+- Repository: the corporate GitHub repository for this training project.
+- A separate personal development repo exists and is not synced with the corporate repo.
 - Use imperative mood for commit messages, scoped to what changed (e.g., "Add module 08 advanced curriculum").
 - The current working branch for training pushes is `ai-coding-agent-training-20260309`.
 
