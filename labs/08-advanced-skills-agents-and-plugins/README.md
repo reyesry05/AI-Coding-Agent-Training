@@ -12,10 +12,21 @@ By the end of this lab, you should be able to:
 - produce a reviewable advanced workflow outline
 
 ## Starter State
+
 You begin with:
+
 - a safe BI, DS, or DE workflow that your team repeats
 - modules 01 through 07 completed or equivalent knowledge
 - no final decision yet about which advanced mechanism to use
+
+Suggested starter scenario: review a monthly BI release package containing a KPI glossary, a report README, and release notes.
+
+Starter questions:
+
+- What belongs in reusable guidance?
+- What requires multi-step execution?
+- What needs external capability access?
+- What should still require human approval?
 
 ## Target State
 You finish with:
@@ -139,8 +150,20 @@ Common failure mode and fix:
 - What is the smallest version of this advanced workflow you could pilot first?
 
 ## Solution Guidance
+
 A complete solution should show:
+
 - one bounded workflow outcome
 - one role breakdown for skill, agent, and plugin
 - one clear governance rule
 - one explicit manual checkpoint
+
+### Worked Example
+
+- Workflow outcome: review a monthly BI release package and produce a release-readiness summary.
+- Skill: KPI definition and release-review checklist used every month.
+- Agent: review agent that compares glossary terms, README notes, and release changes across files.
+- Plugin: integration that exposes metadata or model context not available from local prompt text alone.
+- Validation rule: the final summary must include file-backed evidence for each issue.
+- Human approval step: a BI lead approves the release summary before publication.
+- Manual step: final signoff on business definitions remains human-owned.
