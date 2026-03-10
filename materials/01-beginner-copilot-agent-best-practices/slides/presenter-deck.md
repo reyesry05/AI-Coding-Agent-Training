@@ -24,23 +24,25 @@ Presenter notes:
 
 Explain that beginner frustration often comes from using the most powerful mode too early or asking for too much in one turn.
 
-## Slide 3: The Three Built-In Modes
+## Slide 3: The Four Built-In Modes
 
 On-screen content:
 
 - Ask: explain and orient
+- Edit: targeted inline changes with diff review
 - Plan: propose steps before changes
 - Agent: execute across files and tools
 
 Presenter notes:
 
-Clarify that the safest beginner pattern is Ask, then Plan, then Agent. This reduces surprise and improves teachability.
+Clarify that the safest beginner pattern is Ask, then Edit for small changes, then Plan for multi-step work, then Agent. This reduces surprise and improves teachability.
 
 ## Slide 4: Choose The Lightest Tool That Works
 
 On-screen content:
 
 - Use Ask for understanding
+- Use Edit for targeted file changes
 - Use Plan for shaping work
 - Use Agent for clear, bounded execution
 
@@ -49,7 +51,8 @@ Presenter notes:
 Give one example per audience:
 
 - BI: Ask for an explanation of a reporting workflow.
-- DS: Plan a notebook cleanup before any edits.
+- DS: Edit a notebook cell to add a missing seed parameter.
+- DE: Plan a pipeline documentation improvement before any edits.
 - DE: Agent can update a pipeline README after scope is agreed.
 
 ## Slide 5: What A Good Beginner Prompt Includes
@@ -111,6 +114,7 @@ On-screen content:
 - Scenario: Copilot improves a sales KPI view. Review the diff before approving.
 
 **Before (original):**
+
 ```sql
 CREATE VIEW vw_sales_kpis AS
 SELECT
@@ -123,6 +127,7 @@ GROUP BY region;
 ```
 
 **After (AI-improved):**
+
 ```sql
 CREATE VIEW vw_sales_kpis AS
 SELECT
@@ -153,6 +158,7 @@ On-screen content:
 - Scenario: Copilot adds reproducibility guards to a churn-model notebook cell.
 
 **Before (original):**
+
 ```python
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -168,6 +174,7 @@ print(f"Accuracy: {model.score(X_test, y_test):.3f}")
 ```
 
 **After (AI-improved):**
+
 ```python
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -204,6 +211,7 @@ On-screen content:
 - Scenario: Copilot adds retry logic and operational notes to an Airflow task.
 
 **Before (original):**
+
 ```python
 load_orders = PythonOperator(
     task_id="load_orders",
@@ -213,6 +221,7 @@ load_orders = PythonOperator(
 ```
 
 **After (AI-improved):**
+
 ```python
 load_orders = PythonOperator(
     task_id="load_orders",
@@ -263,7 +272,7 @@ Keep this slide practical. Ask learners which mistake they expect to make first,
 
 On-screen content:
 
-- Can you choose Ask vs Plan vs Agent?
+- Can you choose Ask vs Edit vs Plan vs Agent?
 - Can you refine a vague prompt?
 - Can you name what still needs verification?
 - Which team habit should become an instruction?

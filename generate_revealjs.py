@@ -36,7 +36,7 @@ def parse_presenter_deck(md_path):
     slides = []
 
     for block in slide_blocks:
-        h2 = re.match(r"^##\s+Slide\s+\d+\.\s*(.+)", block)
+        h2 = re.match(r"^##\s+Slide\s+\d+[.:]\s*(.+)", block)
         if not h2:
             continue
         title = h2.group(1).strip()

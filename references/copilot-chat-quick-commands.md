@@ -40,10 +40,13 @@ Type `#` in the chat input to attach specific context to your prompt.
 
 Switch modes using the dropdown at the top of the Copilot Chat panel or type the mode keyword.
 
+GitHub Copilot Chat offers four modes, ordered from least to most autonomous.
+
 | Mode | Behavior | Best For |
 | --- | --- | --- |
 | **Ask** | Read-only answers. Does not modify files. | Exploring, learning, asking questions, understanding code. |
 | **Edit** | Proposes inline edits to specific files you indicate. | Targeted changes to one or a few files with full diff review. |
+| **Plan** | Generates a step-by-step plan for review before applying changes. | Multi-step tasks where you want to inspect the approach first. |
 | **Agent** | Autonomous multi-step execution with tool access (terminal, file edits, search). | Complex tasks spanning multiple files, running commands, scaffolding projects. |
 
 ## Agent Mode Tool Approvals
@@ -55,6 +58,8 @@ When running in Agent mode, Copilot may request permission to use tools. Underst
 | **Continue** | Approve the single pending action. |
 | **Continue (allow for session)** | Auto-approve this tool type for the rest of the chat session. |
 | **Cancel** | Reject the pending action. Copilot will try an alternative. |
+
+To change the default approval behavior (including auto-approving everything), see [Copilot Agent Approval Settings](copilot-agent-approval-settings.md).
 
 ## Keyboard Shortcuts (Windows)
 

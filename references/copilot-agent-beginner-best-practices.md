@@ -8,9 +8,13 @@ This reference captures baseline beginner practices for using GitHub Copilot and
 
 | Situation | Best Starting Mode | Why |
 | --- | --- | --- |
-| Need explanation or orientation | Ask | Lowest risk and easiest to review |
+| Need explanation or orientation | Ask | Lowest risk, read-only, easiest to review |
+| Need targeted edits to specific files | Edit | Applies inline changes you can diff-review before accepting |
 | Need a step-by-step approach | Plan | Lets the learner inspect the approach before edits |
-| Need a bounded implementation task | Agent | Useful when the task is clear and reviewable |
+| Need a bounded implementation task | Agent | Useful when the task is clear and requires multi-step execution |
+
+GitHub Copilot in VS Code now supports four interaction modes ordered from least to most autonomous: Ask, Edit, Plan, Agent.
+For details on each mode, see [GitHub Copilot Reimagine Overview](github-copilot-reimagine-overview.md).
 
 ## Core Beginner Practices
 
@@ -47,6 +51,7 @@ This reference captures baseline beginner practices for using GitHub Copilot and
 - [Review AI-generated code edits](https://code.visualstudio.com/docs/copilot/chat/review-code-edits)
 - [Troubleshooting GitHub Copilot in VS Code](https://code.visualstudio.com/docs/copilot/troubleshooting)
 
-## Related Module
+## Related Files
 
 - [Beginner Best Practices For GitHub Copilot Agents In VS Code](../materials/01-beginner-copilot-agent-best-practices/README.md)
+- [GitHub Copilot Reimagine Overview](github-copilot-reimagine-overview.md)

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>First Safe Prompts For Ask, Plan, And Agent</title>
+    <title>First Safe Prompts For Ask, Edit, Plan, And Agent</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
     <style>
@@ -200,7 +200,7 @@
                 <section data-background-gradient="radial-gradient(circle at 30% 50%, #0078D4 0%, #001a33 70%)" data-transition="zoom">
                     <div class="title-slide">
                         <div class="title-decoration"></div>
-                        <h1>First Safe Prompts For Ask, Plan, And Agent</h1>
+                        <h1>First Safe Prompts For Ask, Edit, Plan, And Agent</h1>
                         <p class="subtitle">15 slides  |  BI, Data Science, Data Engineering</p>
                         <div class="title-divider"></div>
                         <p class="branding">AI Coding Agent Training &nbsp;|&nbsp; GitHub Copilot in VS Code</p>
@@ -218,7 +218,7 @@
                     <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Title</h2>
 
                     <ul class="content-list">
-                        <li class="fragment fade-in-then-semi-out">First Safe Prompts For Ask, Plan, And Agent</li>
+                        <li class="fragment fade-in-then-semi-out">First Safe Prompts For Ask, Edit, Plan, And Agent</li>
                         <li class="fragment fade-in-then-semi-out">Beginner module for BI, DS, and DE teams</li>
                     </ul>
 
@@ -238,7 +238,7 @@
                     <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Learning Objectives</h2>
 
                     <ul class="content-list">
-                        <li class="fragment fade-in-then-semi-out">Choose Ask, Plan, or Agent appropriately</li>
+                        <li class="fragment fade-in-then-semi-out">Choose Ask, Edit, Plan, or Agent appropriately</li>
                         <li class="fragment fade-in-then-semi-out">Improve vague prompts into safe prompts</li>
                         <li class="fragment fade-in-then-semi-out">Add scope, output, and validation criteria</li>
                         <li class="fragment fade-in-then-semi-out">Review Agent output before accepting it</li>
@@ -278,16 +278,17 @@
                             <span class="slide-num">4/15</span>
                         </div>
                     </div>
-                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Ask, Plan, And Agent At A Glance</h2>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Ask, Edit, Plan, And Agent At A Glance</h2>
 
                     <ul class="content-list">
                         <li class="fragment fade-in-then-semi-out">Ask: explain, orient, summarize</li>
+                        <li class="fragment fade-in-then-semi-out">Edit: targeted inline changes with diff review</li>
                         <li class="fragment fade-in-then-semi-out">Plan: break work into reviewable steps</li>
                         <li class="fragment fade-in-then-semi-out">Agent: perform bounded implementation work</li>
                     </ul>
 
                     <aside class="notes">
-                        Position Ask as the lowest-risk starting point and Agent as the highest-autonomy option.
+                        Position Ask as the lowest-risk starting point, Edit as the next step up for targeted changes, and Agent as the highest-autonomy option.
                     </aside>
                 </section>
 
@@ -345,16 +346,15 @@
                             <span class="slide-num">7/15</span>
                         </div>
                     </div>
-                    <h2 style="border-left: 4px solid #2ecc71; padding-left: 0.5em;">BI Example</h2>
+                    <h2 style="border-left: 4px solid #2ecc71; padding-left: 0.5em;">BI Example -- Prompt-Driven DAX Improvement</h2>
 
                     <ul class="content-list">
-                        <li class="fragment fade-in-then-semi-out">Explain a sales KPI glossary section</li>
-                        <li class="fragment fade-in-then-semi-out">Plan clearer onboarding notes</li>
-                        <li class="fragment fade-in-then-semi-out">Add a validation checklist for gross margin and YTD revenue</li>
+                        <li class="fragment fade-in-then-semi-out">Scenario: Two prompts produce different DAX measure quality. Compare the outputs.</li>
+                        <li class="fragment fade-in-then-semi-out">Review: Which output is safer to approve? Why?</li>
                     </ul>
 
                     <aside class="notes">
-                        Emphasize that business meaning must remain intact even when wording improves. Use one KPI where a wording change would cause reporting drift if the definition moved.
+                        The weak prompt produced a valid but uncommented measure with no guard. The specific prompt added a business-definition comment, a zero-revenue guard, and preserved the original logic. Ask learners: which would you feel confident merging into a shared Power BI model?
                     </aside>
                 </section>
 
@@ -366,16 +366,15 @@
                             <span class="slide-num">8/15</span>
                         </div>
                     </div>
-                    <h2 style="border-left: 4px solid #2ecc71; padding-left: 0.5em;">DS Example</h2>
+                    <h2 style="border-left: 4px solid #2ecc71; padding-left: 0.5em;">DS Example -- Prompt-Driven Notebook Improvement</h2>
 
                     <ul class="content-list">
-                        <li class="fragment fade-in-then-semi-out">Explain a churn-model notebook setup</li>
-                        <li class="fragment fade-in-then-semi-out">Plan reproducibility improvements</li>
-                        <li class="fragment fade-in-then-semi-out">Add environment, seed, and data-snapshot prerequisites</li>
+                        <li class="fragment fade-in-then-semi-out">Scenario: Two prompts produce different notebook documentation quality.</li>
+                        <li class="fragment fade-in-then-semi-out">Review: Which output helps a teammate reproduce the experiment?</li>
                     </ul>
 
                     <aside class="notes">
-                        Connect prompt quality to reproducibility and experiment reliability. A good answer should expose missing package, dataset, and random-seed assumptions.
+                        The weak prompt generated a one-line comment that adds almost no value. The specific prompt produced a structured prerequisites block that another data scientist could actually use. Point out that the AI will match the precision of the prompt -- vague in, vague out.
                     </aside>
                 </section>
 
@@ -387,16 +386,15 @@
                             <span class="slide-num">9/15</span>
                         </div>
                     </div>
-                    <h2 style="border-left: 4px solid #2ecc71; padding-left: 0.5em;">DE Example</h2>
+                    <h2 style="border-left: 4px solid #2ecc71; padding-left: 0.5em;">DE Example -- Prompt-Driven SQL Transformation Fix</h2>
 
                     <ul class="content-list">
-                        <li class="fragment fade-in-then-semi-out">Explain an Airflow ingestion runbook</li>
-                        <li class="fragment fade-in-then-semi-out">Plan validation notes for upstream tables</li>
-                        <li class="fragment fade-in-then-semi-out">Add troubleshooting for failed daily backfills</li>
+                        <li class="fragment fade-in-then-semi-out">Scenario: Two prompts produce different quality fixes for a pipeline SQL transform.</li>
+                        <li class="fragment fade-in-then-semi-out">Review: Which output is safe to deploy to production?</li>
                     </ul>
 
                     <aside class="notes">
-                        Emphasize operational safety and dependency awareness. The safest prompt improves supportability without rewriting pipeline logic.
+                        The weak prompt produced a syntactically valid query but missed the NULL check, test-account filter, and had no operational context. The specific prompt gave the AI enough constraints to produce a production-ready transform. Ask: what would happen if the test-account filter was missing in your pipeline?
                     </aside>
                 </section>
 
@@ -532,7 +530,7 @@
                     <div class="end-slide">
                         <h1>Thank You</h1>
                         <div class="end-divider"></div>
-                        <p class="end-title">First Safe Prompts For Ask, Plan, And Agent</p>
+                        <p class="end-title">First Safe Prompts For Ask, Edit, Plan, And Agent</p>
                         <p class="end-cta">Questions &amp; Discussion</p>
                     </div>
                 </section>

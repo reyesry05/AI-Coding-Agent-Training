@@ -102,12 +102,12 @@ def parse_presenter_deck(md_path):
         # Remove "Presenter Deck: " prefix if present
         deck_title = re.sub(r"^Presenter Deck:\s*", "", deck_title)
 
-    # Split on H2 headings (## Slide N. Title)
+    # Split on H2 headings (## Slide N. Title  or  ## Slide N: Title)
     slide_blocks = re.split(r"\n(?=## )", text)
     slides = []
 
     for block in slide_blocks:
-        h2_match = re.match(r"^##\s+Slide\s+\d+\.\s*(.+)", block)
+        h2_match = re.match(r"^##\s+Slide\s+\d+[.:]\s*(.+)", block)
         if not h2_match:
             continue
         title = h2_match.group(1).strip()

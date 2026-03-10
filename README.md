@@ -4,8 +4,6 @@
 
 This workspace contains training materials for technical teams learning to use GitHub Copilot AI agents in Visual Studio Code.
 
-The current repository posture is public because the content is generic training material and does not contain Reyes Holdings-specific information.
-
 ## Current Structure
 
 - `materials/` for learner-facing modules and slide assets
@@ -17,51 +15,24 @@ The current repository posture is public because the content is generic training
 ## Current Modules
 
 - `materials/01-beginner-copilot-agent-best-practices/README.md`
-- `materials/02-setup-github-copilot-agents/README.md`
-- `materials/03-first-safe-prompts-ask-plan-agent/README.md`
-- `materials/04-context-and-instructions-for-data-teams/README.md`
-- `materials/05-notebooks-sql-and-pipelines-with-copilot/README.md`
-- `materials/06-review-and-verify-ai-output-for-data-work/README.md`
-- `materials/07-repo-workflows-github-and-azure-devops/README.md`
-- `materials/08-advanced-skills-agents-and-plugins/README.md`
 
 ## Current Labs
 
 - `labs/01-beginner-copilot-agent-best-practices/README.md`
-- `labs/02-setup-github-copilot-agents/README.md`
-- `labs/03-first-safe-prompts-ask-plan-agent/README.md`
-- `labs/04-context-and-instructions-for-data-teams/README.md`
-- `labs/05-notebooks-sql-and-pipelines-with-copilot/README.md`
-- `labs/06-review-and-verify-ai-output-for-data-work/README.md`
-- `labs/07-repo-workflows-github-and-azure-devops/README.md`
-- `labs/08-advanced-skills-agents-and-plugins/README.md`
 
 ## Current References
 
 - `references/copilot-agent-beginner-best-practices.md`
-- `references/awesome-copilot-agents-for-presentation-improvement.md`
-- `references/copilot-chat-quick-commands.md`
-- `references/developer-toolbox.md`
-- `references/git-and-github-desktop-reference.md`
-- `references/presentation-review-findings.md`
-- `references/repository-visibility-and-sharing.md`
-- `references/skills-agents-and-plugins-differences.md`
+- `references/copilot-agent-approval-settings.md`
 
 ## Current Prompt Files
 
 - `.github/prompts/choose-copilot-mode.prompt.md`
 - `.github/prompts/refine-beginner-prompt.prompt.md`
 - `.github/prompts/review-agent-output.prompt.md`
-- `.github/prompts/beginner-training-module.prompt.md`
 
-## Repository Visibility
+## Next Expansion Points
 
-- Current visibility: public
-- Rationale: the content is generic, reusable training material and does not expose company-specific code, architecture, or confidential operating practices.
-- If future content becomes company-specific, move it to a private repository or split generic and internal materials into separate repositories.
-
-## Current Release Focus
-
-- Modules 01 through 08 are present in the workspace.
-- The repository is intended to be shareable as a public training curriculum.
-- Shared governance and sharing guidance is documented in `references/repository-visibility-and-sharing.md`.
+- Add module 02 for context and instructions.
+- Add module 03 for prompt review and validation.
+- Add a facilitator guide for running the first three modules as a workshop.

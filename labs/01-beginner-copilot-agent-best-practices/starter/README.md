@@ -13,11 +13,11 @@ You are a first-time GitHub Copilot user in VS Code. You need to improve your pr
 
 1. Open the module README.
 2. Open the Chat view.
-3. Confirm Ask, Plan, and Agent are available.
+3. Confirm Ask, Edit, Plan, and Agent are available.
 4. Start Task 1 in the lab README.
 
 ## Minimum Acceptance Criteria
 
 - Chat is available.
 - The learner can reference the open file in a prompt.
-- The learner can explain the difference between Ask, Plan, and Agent.
+- The learner can explain the difference between Ask, Edit, Plan, and Agent.

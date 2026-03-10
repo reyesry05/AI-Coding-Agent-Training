@@ -299,16 +299,16 @@
                             <span class="slide-num">5/15</span>
                         </div>
                     </div>
-                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Notebook Workflow</h2>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Notebook Workflow (DS) -- Before And After</h2>
 
                     <ul class="content-list">
-                        <li class="fragment fade-in-then-semi-out">summarize a forecasting notebook workflow</li>
-                        <li class="fragment fade-in-then-semi-out">find environment, seed, and data snapshot gaps</li>
-                        <li class="fragment fade-in-then-semi-out">add a rerun checklist</li>
+                        <li class="fragment fade-in-then-semi-out">Scenario: Copilot improves a forecasting notebook cell. Review before running.</li>
+                        <li class="fragment fade-in-then-semi-out">Review: Are the **data version**, **seasonality settings**, and **horizon** correct?</li>
+                        <li class="fragment fade-in-then-semi-out">Decision: Keep, Revise, or Reject?</li>
                     </ul>
 
                     <aside class="notes">
-                        Tie this to DS and analytics workflows where notebook execution context is often incomplete.
+                        The AI added config comments, explicit seasonality flags, and a shape check. Ask: is weekly seasonality really irrelevant for your data? Is 12 months the right forecast window? The AI made reasonable defaults, but the data scientist must confirm they match the experiment design.
                     </aside>
                 </section>
 
@@ -320,16 +320,16 @@
                             <span class="slide-num">6/15</span>
                         </div>
                     </div>
-                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">SQL Workflow</h2>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">SQL Workflow (BI) -- Before And After</h2>
 
                     <ul class="content-list">
-                        <li class="fragment fade-in-then-semi-out">explain joins, filters, aggregations</li>
-                        <li class="fragment fade-in-then-semi-out">preserve business meaning</li>
-                        <li class="fragment fade-in-then-semi-out">request comments before optimization</li>
+                        <li class="fragment fade-in-then-semi-out">Scenario: Copilot adds documentation and a guard to a revenue report query.</li>
+                        <li class="fragment fade-in-then-semi-out">Review: Is the **net revenue definition** correct? Is `prior_month_revenue` useful or noise?</li>
+                        <li class="fragment fade-in-then-semi-out">Decision: Keep, Revise, or Reject?</li>
                     </ul>
 
                     <aside class="notes">
-                        Make it clear that optimization without business validation is not acceptable.
+                        The AI added a business-definition comment, a prior-month column for context, a percentage calculation, and a divide-by-zero guard. Ask: does your team want the percentage column, or does it create confusion in the dashboard? More columns are not always better. The BI analyst must decide what the end report actually needs.
                     </aside>
                 </section>
 
@@ -341,16 +341,18 @@
                             <span class="slide-num">7/15</span>
                         </div>
                     </div>
-                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Pipeline Workflow</h2>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Pipeline Workflow (DE) -- Before And After</h2>
 
                     <ul class="content-list">
-                        <li class="fragment fade-in-then-semi-out">explain pipeline flow and upstream dependencies</li>
-                        <li class="fragment fade-in-then-semi-out">identify failure points in daily ingestion or backfill runs</li>
-                        <li class="fragment fade-in-then-semi-out">add validation or troubleshooting notes</li>
+                        <li class="fragment fade-in-then-semi-out">Scenario: Copilot improves an Azure Data Factory pipeline activity definition.</li>
+                        <li class="fragment fade-in-then-semi-out">name: copy_orders</li>
+                        <li class="fragment fade-in-then-semi-out">name: copy_orders</li>
+                        <li class="fragment fade-in-then-semi-out">Review: Is `SELECT *` removal correct? Is the 3-day lookback right for your load pattern?</li>
+                        <li class="fragment fade-in-then-semi-out">Decision: Keep, Revise, or Reject?</li>
                     </ul>
 
                     <aside class="notes">
-                        Operational reliability is the main risk here.
+                        The AI replaced `SELECT *` with explicit columns, added a date filter with a 3-day lookback, date-partitioned the sink path, and added retry and timeout policies. Ask: is 3 days the right window? Does your team use date-partitioned paths? The changes look professional but every parameter needs validation against the actual pipeline SLA.
                     </aside>
                 </section>
 

@@ -101,8 +101,8 @@ When automation is introduced (for docs quality or lab validation), document can
 
 ## Git Conventions
 
-- Training content lives under the `AI Coding Agent Training/` subdirectory of the parent repository.
-- Stage only the training directory to avoid touching unrelated files.
+- Repository: `reyesry05/AI-Coding-Agent-Training` on GitHub (corporate).
+- The personal development repo (`stricher05/Research-AI-Architect`) is separate and not synced.
 - Use imperative mood for commit messages, scoped to what changed (e.g., "Add module 08 advanced curriculum").
 - The current working branch for training pushes is `ai-coding-agent-training-20260309`.
 
@@ -127,6 +127,18 @@ Do not duplicate long reference content across files; link to source files inste
 
 For beginner-facing GitHub Copilot agent guidance, use `references/copilot-agent-beginner-best-practices.md` as the baseline reference.
 For advanced skill/agent/plugin guidance, use `references/skills-agents-and-plugins-differences.md`.
+For VS Code approval settings and YOLO mode profiles, use `references/copilot-agent-approval-settings.md`.
+
+## VS Code Approval Settings
+
+When documenting or referencing Copilot agent approval settings, use the current `chat.tools.*` namespace:
+
+- `chat.tools.global.autoApprove` (boolean) -- master switch that auto-approves all agent actions.
+- `chat.tools.terminal.autoApprove` (object) -- regex-based rules for terminal command auto-approval.
+- `chat.tools.urls.autoApprove` (object) -- glob-based rules for URL fetch auto-approval.
+- `chat.editing.confirmEditRequestRetry` (boolean) -- controls edit retry confirmation.
+
+Do **not** use the deprecated `github.copilot.chat.agent.*` namespace. The canonical reference is `references/copilot-agent-approval-settings.md`.
 
 ## Quality Bar
 

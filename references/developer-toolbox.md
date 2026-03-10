@@ -208,6 +208,19 @@ With the **markdownlint** extension installed, you also see inline warnings for 
 
 With the **Markdown Mermaid** extension installed, any Mermaid code blocks render as diagrams in the preview.
 
+## MCP Servers (Model Context Protocol)
+
+MCP servers extend GitHub Copilot Agent mode by exposing external tools and data sources.
+These are optional but recommended for advanced workflows (Module 08).
+
+| Server | URL | What It Provides |
+| --- | --- | --- |
+| GitHub MCP Server | <https://aka.ms/GitHubMCP> | Repository, issue, PR, and Actions tools |
+| Azure MCP Server | <https://aka.ms/AzMCP> | Azure resource management, deployment, and monitoring |
+
+MCP servers are configured in VS Code settings and require Agent mode to use.
+For more details, see the [GitHub Copilot Reimagine Overview](github-copilot-reimagine-overview.md).
+
 ## Presentation Tools
 
 Two Python scripts generate slide decks from presenter-deck markdown files:

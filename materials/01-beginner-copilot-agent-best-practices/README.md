@@ -4,7 +4,7 @@
 
 By the end of this module, learners should be able to:
 
-- Choose the right Copilot interaction mode for the task: Ask, Plan, or Agent.
+- Choose the right Copilot interaction mode for the task: Ask, Edit, Plan, or Agent.
 - Write prompts that are specific, scoped, and grounded in the right context.
 - Review AI-generated changes before accepting them.
 - Use custom instructions to make Copilot more consistent across repeated work.
@@ -37,14 +37,18 @@ Common failure mode and fix:
 
 ## Walkthrough
 
+GitHub Copilot in VS Code provides four interaction modes ordered from least to most autonomous: **Ask**, **Edit**, **Plan**, and **Agent**.
+For a visual overview of the evolution and capabilities behind these modes, see [GitHub Copilot Reimagine Overview](../../references/github-copilot-reimagine-overview.md).
+
 Recommended beginner workflow:
 
 1. Start with `Ask` when you need explanation, orientation, or low-risk guidance.
-2. Use `Plan` when the task is multi-step and you want to review the approach before changes are made.
-3. Use `Agent` only after the task is clear enough that autonomous edits are appropriate.
-4. Add context explicitly with `#` references when the workspace is large or the request is ambiguous.
-5. Review diffs, terminal actions, and outputs before treating the result as correct.
-6. Capture repeated preferences in instructions instead of restating them in every prompt.
+2. Use `Edit` when you know which files need targeted changes and want a diff you can review inline.
+3. Use `Plan` when the task is multi-step and you want to review the approach before changes are made.
+4. Use `Agent` only after the task is clear enough that autonomous edits are appropriate.
+5. Add context explicitly with `#` references when the workspace is large or the request is ambiguous.
+6. Review diffs, terminal actions, and outputs before treating the result as correct.
+7. Capture repeated preferences in instructions instead of restating them in every prompt.
 
 ## Best Practices For Beginners
 
@@ -53,6 +57,7 @@ Recommended beginner workflow:
 Use the lightest-weight option that fits the task.
 
 - Use `Ask` for explanation, concept checks, and file understanding.
+- Use `Edit` for targeted changes to one or a few files where you want a diff to review.
 - Use `Plan` for feature design, training-outline generation, or breaking a large task into stages.
 - Use `Agent` for well-scoped implementation work where you are ready to review edits.
 
@@ -195,7 +200,7 @@ Lab files:
 
 ## Validation Checklist
 
-- The learner can describe when to use `Ask`, `Plan`, and `Agent`.
+- The learner can describe when to use `Ask`, `Edit`, `Plan`, and `Agent`.
 - The learner can improve a vague prompt into a specific one.
 - The learner can add context with `#file`, `#codebase`, or `#fetch`.
 - The learner reviews AI edits before accepting them.
@@ -211,11 +216,12 @@ Lab files:
 
 ## References
 
-See the shared reference file: [Beginner Copilot Agent Best Practices](../../references/copilot-agent-beginner-best-practices.md).
+See the shared reference files:
+
+- [Beginner Copilot Agent Best Practices](../../references/copilot-agent-beginner-best-practices.md)
+- [GitHub Copilot Reimagine Overview](../../references/github-copilot-reimagine-overview.md)
 
 The slide assets for this module are here:
 
 - `materials/01-beginner-copilot-agent-best-practices/slides/slide-outline.md`
 - `materials/01-beginner-copilot-agent-best-practices/slides/presenter-deck.md`
-
-

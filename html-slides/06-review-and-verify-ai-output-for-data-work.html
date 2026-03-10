@@ -300,16 +300,17 @@
                             <span class="slide-num">5/15</span>
                         </div>
                     </div>
-                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">BI Review Lens</h2>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">BI Review Lens -- Spot The Business Logic Error</h2>
 
                     <ul class="content-list">
-                        <li class="fragment fade-in-then-semi-out">definitions</li>
-                        <li class="fragment fade-in-then-semi-out">metrics</li>
-                        <li class="fragment fade-in-then-semi-out">business assumptions</li>
+                        <li class="fragment fade-in-then-semi-out">Scenario: Copilot rewrote a DAX measure. Find the mistake before approving.</li>
+                        <li class="fragment fade-in-then-semi-out">What changed? The AI **dropped the Discounts subtraction**.</li>
+                        <li class="fragment fade-in-then-semi-out">Impact: Net revenue will be overstated in every report using this measure.</li>
+                        <li class="fragment fade-in-then-semi-out">Verdict: **Reject.** The AI simplified the formula but broke the business definition.</li>
                     </ul>
 
                     <aside class="notes">
-                        Emphasize meaning preservation.
+                        This is a realistic and dangerous scenario. The AI-rewritten measure looks cleaner and is syntactically valid. A style-only review would approve it. But comparing to the original reveals that Discounts was silently dropped. Ask learners: how would you catch this without the side-by-side? Answer: always compare to the approved definition, not just to syntax.
                     </aside>
                 </section>
 
@@ -321,16 +322,17 @@
                             <span class="slide-num">6/15</span>
                         </div>
                     </div>
-                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">DS Review Lens</h2>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">DS Review Lens -- Spot The Reproducibility Gap</h2>
 
                     <ul class="content-list">
-                        <li class="fragment fade-in-then-semi-out">prerequisites</li>
-                        <li class="fragment fade-in-then-semi-out">environment assumptions</li>
-                        <li class="fragment fade-in-then-semi-out">reproducibility steps</li>
+                        <li class="fragment fade-in-then-semi-out">Scenario: Copilot added a preprocessing step to a notebook. Find the reproducibility risk.</li>
+                        <li class="fragment fade-in-then-semi-out">What changed? The AI added `df.sample(frac=1)` **without a random seed**.</li>
+                        <li class="fragment fade-in-then-semi-out">Impact: Every run produces a different shuffle before the split. `random_state=42` in `train_test_split` no longer guarantees the same split.</li>
+                        <li class="fragment fade-in-then-semi-out">Verdict: **Revise.** Add `random_state=42` to `df.sample()` or remove the shuffle since `train_test_split` already randomizes.</li>
                     </ul>
 
                     <aside class="notes">
-                        Missing prerequisites are a common failure point in notebook work.
+                        This is subtle. The AI added a preprocessing step that looks reasonable but defeats the existing reproducibility guard. The `random_state` in `train_test_split` becomes meaningless if the input data order changes every run. Ask learners: would a code-only review catch this? Usually not -- you need to think about the data flow.
                     </aside>
                 </section>
 
@@ -342,16 +344,17 @@
                             <span class="slide-num">7/15</span>
                         </div>
                     </div>
-                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">DE Review Lens</h2>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">DE Review Lens -- Spot The Dependency Issue</h2>
 
                     <ul class="content-list">
-                        <li class="fragment fade-in-then-semi-out">dependencies</li>
-                        <li class="fragment fade-in-then-semi-out">failure handling</li>
-                        <li class="fragment fade-in-then-semi-out">scheduling and operations</li>
+                        <li class="fragment fade-in-then-semi-out">Scenario: Copilot optimized a pipeline SQL query. Find the operational risk.</li>
+                        <li class="fragment fade-in-then-semi-out">What changed? The AI added a **JOIN to staging.products** that was not in the original.</li>
+                        <li class="fragment fade-in-then-semi-out">Impact: If `staging.products` is not refreshed before this job runs, the join produces stale or missing data. The pipeline now has an **undeclared upstream dependency**.</li>
+                        <li class="fragment fade-in-then-semi-out">Verdict: **Reject.** The new join adds a dependency that is not in the DAG schedule.</li>
                     </ul>
 
                     <aside class="notes">
-                        DE review should always consider downstream impact.
+                        The AI added a join that looks useful (product info enrichment) but introduced a dependency the pipeline scheduler does not know about. If `staging.products` loads at 06:00 and this job runs at 05:00, you get yesterday&#x27;s product data or missing rows. Ask: how does your team track which tables a job depends on? That is the review question for DE work.
                     </aside>
                 </section>
 

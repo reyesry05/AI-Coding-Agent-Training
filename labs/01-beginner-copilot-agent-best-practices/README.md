@@ -42,7 +42,7 @@ Exact action:
 What success looks like:
 
 - Chat opens.
-- The learner can switch between Ask, Plan, and Agent.
+- The learner can switch between Ask, Edit, Plan, and Agent.
 - The module README is open in the editor.
 
 Common failure mode and fix:
@@ -54,7 +54,7 @@ Common failure mode and fix:
 ### Task 1: Choose The Right Mode
 
 Goal of the step:
-Practice selecting Ask, Plan, or Agent based on task risk and scope.
+Practice selecting Ask, Edit, Plan, or Agent based on task risk and scope.
 
 Exact action:
 
@@ -66,7 +66,7 @@ For each scenario below, choose the mode you would start with and record your an
 
 Suggested prompt:
 
-`Explain why Ask, Plan, or Agent is the best starting mode for each of these three scenarios, and keep the explanation beginner-friendly.`
+`Explain why Ask, Edit, Plan, or Agent is the best starting mode for each of these three scenarios, and keep the explanation beginner-friendly.`
 
 Observable output:
 
@@ -152,7 +152,7 @@ Common failure mode and fix:
 
 ## Validation Checklist
 
-- The learner can explain why they chose Ask, Plan, or Agent for each scenario.
+- The learner can explain why they chose Ask, Edit, Plan, or Agent for each scenario.
 - The learner improved a vague prompt into a constrained one.
 - The learner used explicit context such as `#file`.
 - The learner identified what still needed verification.

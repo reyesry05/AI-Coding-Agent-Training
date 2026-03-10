@@ -37,6 +37,8 @@ flowchart TD
         R3[Copilot Chat Quick Commands]
         R4[Skills Agents And Plugins Differences]
         R5[Git And GitHub Desktop Reference]
+        R6[GitHub Copilot Reimagine Overview]
+        R7[Copilot Agent Approval Settings]
     end
 
     R1 -. supports .-> A
@@ -44,6 +46,10 @@ flowchart TD
     R3 -. supports .-> C
     R4 -. supports .-> H
     R5 -. supports .-> G
+    R6 -. supports .-> A
+    R6 -. supports .-> H
+    R7 -. supports .-> B
+    R7 -. supports .-> H
 ```
 
 ## Reading The Map
@@ -65,6 +71,8 @@ flowchart TD
 | Copilot Chat Quick Commands | 03 First Safe Prompts |
 | Skills Agents And Plugins Differences | 08 Advanced Skills Agents And Plugins |
 | Git And GitHub Desktop Reference | 07 Repo Workflows In GitHub And Azure DevOps |
+| GitHub Copilot Reimagine Overview | 01 Beginner Best Practices, 08 Advanced Skills Agents And Plugins |
+| Copilot Agent Approval Settings | 02 Set Up GitHub Copilot Agents, 08 Advanced Skills Agents And Plugins |
 
 ## Intended Use
 

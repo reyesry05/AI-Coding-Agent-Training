@@ -33,7 +33,7 @@ Quality constraints:
 
 - Write for beginners with direct, plain language
 - Keep prompts specific and safe
-- Prefer Ask, then Plan, then Agent as the learner progression unless the request says otherwise
+- Prefer Ask, then Edit, then Plan, then Agent as the learner progression unless the request says otherwise
 - Require visible validation steps and observable outputs
 - Do not assume advanced coding experience unless the request explicitly says so
 - Avoid assuming GitHub-hosted source control only; mention Azure DevOps when repository workflow matters

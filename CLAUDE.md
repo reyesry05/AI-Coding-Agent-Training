@@ -82,11 +82,10 @@ These rules are enforced across all Markdown files:
 
 ## Git And Branching
 
-- Repository: `stricher05/Research-AI-Architect` on GitHub.
-- Training content lives under the `AI Coding Agent Training/` subdirectory.
+- Repository: `reyesry05/AI-Coding-Agent-Training` on GitHub (corporate, public-facing).
+- The personal development repo (`stricher05/Research-AI-Architect`) is separate and not synced.
 - Working branch for training: `ai-coding-agent-training-20260309`.
 - Commit messages: imperative mood, scoped to training content (e.g., "Add module 08 advanced curriculum").
-- Stage only the `AI Coding Agent Training/` directory to avoid touching unrelated repo files.
 
 ## Validation
 
@@ -104,6 +103,7 @@ Until automated tooling is added, validate every change with:
 | --- | --- |
 | `references/copilot-agent-beginner-best-practices.md` | Baseline beginner guidance from official docs |
 | `references/skills-agents-and-plugins-differences.md` | Skill vs agent vs plugin definitions and decision guide |
+| `references/copilot-agent-approval-settings.md` | VS Code approval settings, YOLO mode profiles, and risk guidance |
 | `references/awesome-copilot-agents-for-presentation-improvement.md` | Review rubric and improvement strategies |
 | `CONTRIBUTING.md` | Full authoring standards |
 | `generate_revealjs.py` | Presenter-deck to Reveal.js HTML slide converter |
@@ -139,6 +139,7 @@ Re-run the scripts after editing any presenter deck to regenerate output.
 - Do not create files outside the established folder structure without justification.
 - Do not assume GitHub-only workflows; always mention Azure DevOps where repository workflow matters.
 - Do not use vague prompts as examples. Every example prompt should be specific, constrained, and safe.
+- Do not use the deprecated `github.copilot.chat.agent.*` settings namespace. The current keys are `chat.tools.global.autoApprove`, `chat.tools.terminal.autoApprove`, `chat.tools.urls.autoApprove`, and `chat.editing.confirmEditRequestRetry`. See `references/copilot-agent-approval-settings.md`.
 
 ## Quick Commands
 

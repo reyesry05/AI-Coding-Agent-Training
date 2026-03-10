@@ -80,6 +80,28 @@ Example:
 - Plugin:
   - orchestration, logging, or data-quality integration
 
+## GA And Preview Features As Real Examples
+
+The following GitHub Copilot capabilities illustrate how skills, agents, and plugins appear in practice.
+For a complete feature overview, see [GitHub Copilot Reimagine Overview](github-copilot-reimagine-overview.md).
+
+| Feature | Status | Category | What It Is |
+| --- | --- | --- | --- |
+| Coding Agent | GA | Agent | Assigns a GitHub issue to Copilot for autonomous implementation in a draft PR |
+| Code Review | GA | Agent | Automated PR reviewer that posts inline suggestions and change requests |
+| Copilot Spaces | GA | Skill-like | Curated knowledge collections that provide shared context for a team |
+| Agent HQ | Preview | Plugin hub | Central dashboard to configure and monitor all AI agents across your org |
+| Custom Agents | Preview | Agent | User-defined agents with custom instructions and tool access |
+| MCP Servers | GA | Plugin | Model Context Protocol servers that expose external tools (GitHub MCP, Azure MCP) |
+| Metrics Dashboard | GA | Governance | Organization-level usage, adoption, and impact metrics |
+
+When designing advanced workflows, map each feature to the skill-agent-plugin framework:
+
+- A **Copilot Space** acts like a shared skill: it defines context, not execution.
+- The **Coding Agent** and **Code Review** are specialized agents that execute scoped tasks autonomously.
+- **MCP servers** and **Agent HQ integrations** are plugins that provide external capability access.
+- The **Metrics Dashboard** supports governance by making agent activity observable.
+
 ## Common Mistakes
 
 - Building an agent when a checklist is enough
@@ -108,6 +130,7 @@ Use this file when:
 
 ## References
 
+- [GitHub Copilot Reimagine Overview](github-copilot-reimagine-overview.md)
 - GitHub Copilot coding agent guidance: <https://docs.github.com/en/copilot/tutorials/coding-agent/get-the-best-results>
 - VS Code AI best practices: <https://code.visualstudio.com/docs/copilot/best-practices>
 - VS Code custom instructions: <https://code.visualstudio.com/docs/copilot/customization/custom-instructions>

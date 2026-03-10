@@ -323,15 +323,18 @@
                             <span class="slide-num">6/15</span>
                         </div>
                     </div>
-                    <h2 style="border-left: 4px solid #2ecc71; padding-left: 0.5em;">BI Example</h2>
+                    <h2 style="border-left: 4px solid #2ecc71; padding-left: 0.5em;">BI Example -- Repo Diff Review</h2>
 
                     <ul class="content-list">
-                        <li class="fragment fade-in-then-semi-out">improve a sales KPI glossary section in a repo README</li>
-                        <li class="fragment fade-in-then-semi-out">keep gross margin and net sales definitions unchanged</li>
+                        <li class="fragment fade-in-then-semi-out">Scenario: Copilot updated a KPI glossary in a shared repo. Review the diff before merge.</li>
+                        <li class="fragment fade-in-then-semi-out">**Gross Margin**: Revenue minus cost.</li>
+                        <li class="fragment fade-in-then-semi-out">Review: Did the AI **change** the Gross Margin definition or **clarify** it?</li>
+                        <li class="fragment fade-in-then-semi-out">Is the new Gross Margin % metric approved by Finance?</li>
+                        <li class="fragment fade-in-then-semi-out">Decision: Keep, Revise, or Reject the PR?</li>
                     </ul>
 
                     <aside class="notes">
-                        Business meaning should not drift because wording improved.
+                        Walk through the diff format. The `-` lines are removals, `+` lines are additions. The AI expanded the Gross Margin definition (likely an improvement) and added a new metric (Gross Margin %) that may not be approved. Ask: who owns the authority to add new KPIs? This is a real governance question that a code review alone cannot answer.
                     </aside>
                 </section>
 
@@ -343,15 +346,18 @@
                             <span class="slide-num">7/15</span>
                         </div>
                     </div>
-                    <h2 style="border-left: 4px solid #2ecc71; padding-left: 0.5em;">DS Example</h2>
+                    <h2 style="border-left: 4px solid #2ecc71; padding-left: 0.5em;">DS Example -- Repo Diff Review</h2>
 
                     <ul class="content-list">
-                        <li class="fragment fade-in-then-semi-out">add notebook prerequisites and data snapshot notes</li>
-                        <li class="fragment fade-in-then-semi-out">do not change feature engineering or model logic</li>
+                        <li class="fragment fade-in-then-semi-out">Scenario: Copilot updated a notebook prerequisites section. Review before merge.</li>
+                        <li class="fragment fade-in-then-semi-out">Python 3.10+</li>
+                        <li class="fragment fade-in-then-semi-out">Review: Is the Python version bump from 3.10 to 3.12 intentional or a side effect?</li>
+                        <li class="fragment fade-in-then-semi-out">Are the pinned package versions correct for this experiment?</li>
+                        <li class="fragment fade-in-then-semi-out">Decision: Keep, Revise, or Reject the PR?</li>
                     </ul>
 
                     <aside class="notes">
-                        Separate support content from analysis changes.
+                        The AI upgraded Python 3.10 to 3.12 and added useful prerequisite details. But the version bump may break CI or team environments still on 3.10. Ask: did anyone request the Python upgrade? The data and seed additions are clearly helpful. The right call may be Revise -- keep the new lines but revert the Python version change.
                     </aside>
                 </section>
 
@@ -363,15 +369,19 @@
                             <span class="slide-num">8/15</span>
                         </div>
                     </div>
-                    <h2 style="border-left: 4px solid #2ecc71; padding-left: 0.5em;">DE Example</h2>
+                    <h2 style="border-left: 4px solid #2ecc71; padding-left: 0.5em;">DE Example -- Repo Diff Review</h2>
 
                     <ul class="content-list">
-                        <li class="fragment fade-in-then-semi-out">improve troubleshooting notes for a pipeline runbook</li>
-                        <li class="fragment fade-in-then-semi-out">keep deployment order, rollback, and on-call steps unchanged</li>
+                        <li class="fragment fade-in-then-semi-out">Scenario: Copilot updated a pipeline runbook in the repo. Review before merge.</li>
+                        <li class="fragment fade-in-then-semi-out">2. Retry the task manually if it failed.</li>
+                        <li class="fragment fade-in-then-semi-out">Restore from the previous partition snapshot.</li>
+                        <li class="fragment fade-in-then-semi-out">Review: Is the **escalation path** (page on-call DE) correct for your team?</li>
+                        <li class="fragment fade-in-then-semi-out">Should step 5 be a warning or a hard gate?</li>
+                        <li class="fragment fade-in-then-semi-out">Decision: Keep, Revise, or Reject the PR?</li>
                     </ul>
 
                     <aside class="notes">
-                        For DE work, reviewability and operational safety come first.
+                        The AI replaced a vague &quot;retry manually&quot; step with a structured troubleshooting sequence. This is a clear improvement. But ask: is 3 retries correct? Is paging the on-call DE the right escalation, or should it go to the team lead first? Operational runbooks must match the actual incident process. The diff looks great, but the DE must verify every step against reality.
                     </aside>
                 </section>
 

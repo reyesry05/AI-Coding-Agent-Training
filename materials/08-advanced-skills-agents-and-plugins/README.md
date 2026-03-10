@@ -21,7 +21,7 @@ Audience:
 Prerequisites:
 
 - Modules 01 through 07 completed or equivalent knowledge
-- Familiarity with Ask, Plan, and Agent workflows in VS Code
+- Familiarity with Ask, Edit, Plan, and Agent workflows in VS Code
 - One safe workspace with files that can be used for advanced workflow examples
 - GitHub Copilot Chat available in VS Code
 
@@ -50,6 +50,20 @@ Exact action:
   - Skill: reusable domain or workflow guidance that teaches how to approach a class of tasks
   - Agent: an execution mode or specialized workflow that can reason across steps and carry a task forward
   - Plugin: an external capability provider, usually a VS Code extension, integration, MCP server, or tool source that gives the agent access it would not have from prompt text alone
+
+As of early 2025, several GitHub Copilot features map directly to these categories:
+
+| Feature | Category | Status |
+| --- | --- | --- |
+| Coding Agent (assigns issues to Copilot) | Agent | GA |
+| Code Review (automated PR reviews) | Agent | GA |
+| Copilot Spaces (shared knowledge context) | Skill-like | GA |
+| Agent HQ (central agent dashboard) | Plugin hub | Preview |
+| Custom Agents (user-defined agents) | Agent | Preview |
+| MCP Servers (GitHub MCP, Azure MCP) | Plugin | GA |
+| Metrics Dashboard (org-level analytics) | Governance | GA |
+
+For a full overview of these capabilities, see [GitHub Copilot Reimagine Overview](../../references/github-copilot-reimagine-overview.md).
 
 What success looks like:
 
@@ -81,7 +95,7 @@ Common failure mode and fix:
 - Failure: The learner creates an agent for a problem that only needs a reference or checklist.
 - Fix: Start with the smallest mechanism that solves the problem safely.
 
-### Step 3. Understand How They Work Together
+### Step 3. Understand How They Work Together (Including MCP)
 
 Goal of the step:
 
@@ -93,6 +107,13 @@ Exact action:
   - A skill defines the method or standard.
   - An agent performs the task using that method.
   - A plugin provides access to systems or tools the task depends on.
+
+MCP servers are a concrete example of the plugin layer:
+
+- **GitHub MCP Server** (<https://aka.ms/GitHubMCP>): exposes repository, issue, PR, and Actions tools to the agent.
+- **Azure MCP Server** (<https://aka.ms/AzMCP>): exposes Azure resource management, deployment, and monitoring tools.
+
+These servers let an agent interact with external systems without requiring custom extension code.
 
 What success looks like:
 
@@ -206,7 +227,10 @@ Expected observable output:
 ## References
 
 - Workspace reference: `references/skills-agents-and-plugins-differences.md`
+- [GitHub Copilot Reimagine Overview](../../references/github-copilot-reimagine-overview.md)
 - GitHub Copilot coding agent guidance: <https://docs.github.com/en/copilot/tutorials/coding-agent/get-the-best-results>
+- GitHub MCP Server: <https://aka.ms/GitHubMCP>
+- Azure MCP Server: <https://aka.ms/AzMCP>
 - VS Code AI best practices: <https://code.visualstudio.com/docs/copilot/best-practices>
 - VS Code custom instructions: <https://code.visualstudio.com/docs/copilot/customization/custom-instructions>
 - VS Code extensions overview: <https://code.visualstudio.com/docs/editor/extension-marketplace>

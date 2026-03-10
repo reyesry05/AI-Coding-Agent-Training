@@ -15,12 +15,14 @@
 ## 3. What Copilot Modes Do
 
 - Ask: explain, orient, answer questions
+- Edit: targeted inline changes with diff review
 - Plan: create a step-by-step approach before changes
 - Agent: perform coordinated work with tools and edits
 
 ## 4. Choose The Right Mode
 
 - Start with Ask for understanding
+- Use Edit for targeted file changes
 - Move to Plan for multi-step work
 - Use Agent for clear, reviewable implementation tasks
 
