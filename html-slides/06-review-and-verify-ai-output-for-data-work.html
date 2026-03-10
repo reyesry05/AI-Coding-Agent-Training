@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review And Verify AI Output For Data Work</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+    <style>
+        /* ---- Custom theme overrides ---- */
+        :root {
+            --r-background-color: #0f1729;
+            --r-heading-color: #ffffff;
+            --r-main-color: #e0e6ed;
+            --r-link-color: #00b4d8;
+            --accent-blue: #0078D4;
+            --accent-green: #2ecc71;
+            --accent-red: #e74c3c;
+        }
+
+        .reveal {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        .reveal h1, .reveal h2, .reveal h3 {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-weight: 600;
+            text-transform: none;
+            letter-spacing: -0.02em;
+        }
+
+        .reveal h1 { font-size: 2.4em; }
+        .reveal h2 { font-size: 1.6em; color: #ffffff; }
+
+        /* Title slide */
+        .title-slide {
+            text-align: left;
+            padding-left: 2em;
+        }
+        .title-slide h1 {
+            font-size: 2.6em;
+            line-height: 1.15;
+            margin-bottom: 0.3em;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+        }
+        .title-slide .subtitle {
+            font-size: 1.1em;
+            color: #8ecae6;
+            margin-bottom: 1em;
+        }
+        .title-decoration {
+            width: 80px;
+            height: 4px;
+            background: var(--accent-green);
+            margin-bottom: 1.5em;
+            border-radius: 2px;
+        }
+        .title-divider {
+            width: 120px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+            margin: 0.8em 0;
+            border-radius: 2px;
+        }
+        .title-slide .branding {
+            font-size: 0.75em;
+            color: #5d6d7e;
+            margin-top: 1.5em;
+        }
+
+        /* Slide header bar */
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8em;
+        }
+        .accent-line {
+            height: 3px;
+            flex-grow: 1;
+            border-radius: 2px;
+            margin-right: 1em;
+        }
+        .slide-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.6em;
+            flex-shrink: 0;
+        }
+        .slide-badge {
+            font-size: 0.55em;
+            padding: 0.15em 0.6em;
+            border-radius: 20px;
+            color: white;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .slide-num {
+            font-size: 0.6em;
+            color: #5d6d7e;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Content bullets */
+        .content-list {
+            list-style: none;
+            text-align: left;
+            padding-left: 0;
+            margin-top: 0.6em;
+        }
+        .content-list li {
+            position: relative;
+            padding-left: 1.6em;
+            margin-bottom: 0.55em;
+            font-size: 0.85em;
+            line-height: 1.5;
+            color: #c8d6e5;
+        }
+        .content-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.55em;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-blue);
+        }
+
+        /* Fragment animation */
+        .content-list li.fragment.fade-in-then-semi-out.visible {
+            opacity: 1;
+            color: #ffffff;
+        }
+        .content-list li.fragment.fade-in-then-semi-out.visible.current-fragment {
+            color: #ffffff;
+        }
+
+        /* Section divider */
+        .section-divider {
+            text-align: center;
+        }
+        .section-divider h1 {
+            font-size: 3em;
+            margin-bottom: 0.2em;
+            text-shadow: 0 4px 30px rgba(0,0,0,0.3);
+        }
+        .section-sub {
+            font-size: 1.2em;
+            color: rgba(255,255,255,0.7);
+            font-style: italic;
+        }
+
+        /* End slide */
+        .end-slide {
+            text-align: center;
+        }
+        .end-slide h1 {
+            font-size: 3.2em;
+            margin-bottom: 0.1em;
+        }
+        .end-divider {
+            width: 140px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
+            margin: 0.6em auto;
+            border-radius: 2px;
+        }
+        .end-title {
+            font-size: 1em;
+            color: #8ecae6;
+        }
+        .end-cta {
+            font-size: 0.85em;
+            color: #5d6d7e;
+            margin-top: 1em;
+        }
+
+        /* Speaker notes are handled natively by Reveal.js --
+           press S while presenting to see them */
+
+        /* Progress bar styling */
+        .reveal .progress {
+            color: var(--accent-blue);
+            height: 4px;
+        }
+
+        /* Slide number */
+        .reveal .slide-number {
+            font-size: 0.6em;
+            color: #5d6d7e;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+                <section data-background-gradient="radial-gradient(circle at 30% 50%, #0078D4 0%, #001a33 70%)" data-transition="zoom">
+                    <div class="title-slide">
+                        <div class="title-decoration"></div>
+                        <h1>Review And Verify AI Output For Data Work</h1>
+                        <p class="subtitle">15 slides  |  BI, Data Science, Data Engineering</p>
+                        <div class="title-divider"></div>
+                        <p class="branding">AI Coding Agent Training &nbsp;|&nbsp; GitHub Copilot in VS Code</p>
+                    </div>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#0078D4">TITLE</span>
+                            <span class="slide-num">1/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Title</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">Review And Verify AI Output For Data Work</li>
+                        <li class="fragment fade-in-then-semi-out">BI, DS, and DE review habits</li>
+                    </ul>
+
+                    <aside class="notes">
+                        This module is about keeping accountability where it belongs: with the team using the output.<br>Start by recapping the artifact-level risks from module 05, then shift the conversation from editing safely to deciding what can actually be kept, revised, or rejected before repo-backed work begins.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#0078D4">OBJECTIVES</span>
+                            <span class="slide-num">2/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Learning Objectives</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">identify data-team-specific risks</li>
+                        <li class="fragment fade-in-then-semi-out">review beyond wording and style</li>
+                        <li class="fragment fade-in-then-semi-out">document human validation work</li>
+                        <li class="fragment fade-in-then-semi-out">make keep, revise, or reject decisions</li>
+                    </ul>
+
+                    <aside class="notes">
+                        State clearly that style review is not enough for data work.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">3/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Why Review Is Different In Data Work</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">business meaning can drift</li>
+                        <li class="fragment fade-in-then-semi-out">reproducibility can break</li>
+                        <li class="fragment fade-in-then-semi-out">operational assumptions can be missed</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Use one short example from each audience if possible.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">4/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Review Categories</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">business correctness</li>
+                        <li class="fragment fade-in-then-semi-out">reproducibility</li>
+                        <li class="fragment fade-in-then-semi-out">operational reliability</li>
+                        <li class="fragment fade-in-then-semi-out">scope and fit</li>
+                    </ul>
+
+                    <aside class="notes">
+                        This gives learners a reusable review checklist.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">5/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">BI Review Lens</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">definitions</li>
+                        <li class="fragment fade-in-then-semi-out">metrics</li>
+                        <li class="fragment fade-in-then-semi-out">business assumptions</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Emphasize meaning preservation.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">6/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">DS Review Lens</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">prerequisites</li>
+                        <li class="fragment fade-in-then-semi-out">environment assumptions</li>
+                        <li class="fragment fade-in-then-semi-out">reproducibility steps</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Missing prerequisites are a common failure point in notebook work.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">7/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">DE Review Lens</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">dependencies</li>
+                        <li class="fragment fade-in-then-semi-out">failure handling</li>
+                        <li class="fragment fade-in-then-semi-out">scheduling and operations</li>
+                    </ul>
+
+                    <aside class="notes">
+                        DE review should always consider downstream impact.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">8/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">What Counts As Evidence</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">source file comparison</li>
+                        <li class="fragment fade-in-then-semi-out">explicit checklist</li>
+                        <li class="fragment fade-in-then-semi-out">visible validation note</li>
+                        <li class="fragment fade-in-then-semi-out">diff review</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Confidence in the AI is not evidence. Observable review is evidence.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#e74c3c"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#e74c3c">VALIDATION</span>
+                            <span class="slide-num">9/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #e74c3c; padding-left: 0.5em;">Human Validation Boundaries</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">what AI can draft</li>
+                        <li class="fragment fade-in-then-semi-out">what humans must still decide</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Ask learners to name one decision AI should not make for their team.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">10/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Keep, Revise, Or Reject</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">keep when bounded and correct</li>
+                        <li class="fragment fade-in-then-semi-out">revise when useful but incomplete</li>
+                        <li class="fragment fade-in-then-semi-out">reject when meaning or risk is unclear</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Encourage decisive review instead of default acceptance.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">11/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Build Review Into Prompts</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">preserve meaning</li>
+                        <li class="fragment fade-in-then-semi-out">include validation</li>
+                        <li class="fragment fade-in-then-semi-out">list assumptions</li>
+                        <li class="fragment fade-in-then-semi-out">limit scope</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Better prompts reduce review effort but do not remove review responsibility.
+                    </aside>
+                </section>
+
+                <section data-background-gradient="linear-gradient(135deg, #0078D4 0%, #00b4d8 100%)" data-transition="zoom">
+                    <div class="section-divider">
+                        <h1>Hands-On Lab</h1>
+                        <p class="section-sub">Time to practice</p>
+                    </div>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#2ecc71"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#2ecc71">LAB</span>
+                            <span class="slide-num">12/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #2ecc71; padding-left: 0.5em;">Review Decision Exercise</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">review one AI result</li>
+                        <li class="fragment fade-in-then-semi-out">identify one risk</li>
+                        <li class="fragment fade-in-then-semi-out">identify one human follow-up</li>
+                        <li class="fragment fade-in-then-semi-out">make a decision</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Keep the artifact small and specific.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">13/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Decision Readiness Check</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">learner can name a risk category</li>
+                        <li class="fragment fade-in-then-semi-out">learner can review beyond style</li>
+                        <li class="fragment fade-in-then-semi-out">learner can justify a decision</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Require evidence for the decision.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">14/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Approval Debrief</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">what risk matters most for your team?</li>
+                        <li class="fragment fade-in-then-semi-out">what should always need human approval?</li>
+                    </ul>
+
+                    <aside class="notes">
+                        This is where team standards start to emerge.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#95a5a6"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#95a5a6">REFERENCES</span>
+                            <span class="slide-num">15/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #95a5a6; padding-left: 0.5em;">References</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">VS Code AI best practices</li>
+                        <li class="fragment fade-in-then-semi-out">GitHub Copilot best practices</li>
+                        <li class="fragment fade-in-then-semi-out">Workspace module: materials/06-review-and-verify-ai-output-for-data-work/README.md</li>
+                        <li class="fragment fade-in-then-semi-out">Workspace reference: references/copilot-agent-beginner-best-practices.md</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Encourage teams to turn repeatable review rules into standard practice and record them where new learners can find them.
+                    </aside>
+                </section>
+
+                <section data-background-gradient="radial-gradient(circle at 70% 50%, #0078D4 0%, #001a33 70%)" data-transition="zoom">
+                    <div class="end-slide">
+                        <h1>Thank You</h1>
+                        <div class="end-divider"></div>
+                        <p class="end-title">Review And Verify AI Output For Data Work</p>
+                        <p class="end-cta">Questions &amp; Discussion</p>
+                    </div>
+                </section>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: 'c/t',
+            showSlideNumber: 'all',
+            transition: 'slide',
+            transitionSpeed: 'default',
+            backgroundTransition: 'fade',
+            center: true,
+            progress: true,
+            controls: true,
+            controlsTutorial: true,
+            plugins: [RevealNotes],
+            width: 1920,
+            height: 1080,
+        });
+    </script>
+</body>
+</html>

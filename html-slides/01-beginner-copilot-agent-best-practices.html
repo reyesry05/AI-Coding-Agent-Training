@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beginner Best Practices For GitHub Copilot Agents In VS Code</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+    <style>
+        /* ---- Custom theme overrides ---- */
+        :root {
+            --r-background-color: #0f1729;
+            --r-heading-color: #ffffff;
+            --r-main-color: #e0e6ed;
+            --r-link-color: #00b4d8;
+            --accent-blue: #0078D4;
+            --accent-green: #2ecc71;
+            --accent-red: #e74c3c;
+        }
+
+        .reveal {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        .reveal h1, .reveal h2, .reveal h3 {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-weight: 600;
+            text-transform: none;
+            letter-spacing: -0.02em;
+        }
+
+        .reveal h1 { font-size: 2.4em; }
+        .reveal h2 { font-size: 1.6em; color: #ffffff; }
+
+        /* Title slide */
+        .title-slide {
+            text-align: left;
+            padding-left: 2em;
+        }
+        .title-slide h1 {
+            font-size: 2.6em;
+            line-height: 1.15;
+            margin-bottom: 0.3em;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+        }
+        .title-slide .subtitle {
+            font-size: 1.1em;
+            color: #8ecae6;
+            margin-bottom: 1em;
+        }
+        .title-decoration {
+            width: 80px;
+            height: 4px;
+            background: var(--accent-green);
+            margin-bottom: 1.5em;
+            border-radius: 2px;
+        }
+        .title-divider {
+            width: 120px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+            margin: 0.8em 0;
+            border-radius: 2px;
+        }
+        .title-slide .branding {
+            font-size: 0.75em;
+            color: #5d6d7e;
+            margin-top: 1.5em;
+        }
+
+        /* Slide header bar */
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8em;
+        }
+        .accent-line {
+            height: 3px;
+            flex-grow: 1;
+            border-radius: 2px;
+            margin-right: 1em;
+        }
+        .slide-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.6em;
+            flex-shrink: 0;
+        }
+        .slide-badge {
+            font-size: 0.55em;
+            padding: 0.15em 0.6em;
+            border-radius: 20px;
+            color: white;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .slide-num {
+            font-size: 0.6em;
+            color: #5d6d7e;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Content bullets */
+        .content-list {
+            list-style: none;
+            text-align: left;
+            padding-left: 0;
+            margin-top: 0.6em;
+        }
+        .content-list li {
+            position: relative;
+            padding-left: 1.6em;
+            margin-bottom: 0.55em;
+            font-size: 0.85em;
+            line-height: 1.5;
+            color: #c8d6e5;
+        }
+        .content-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.55em;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-blue);
+        }
+
+        /* Fragment animation */
+        .content-list li.fragment.fade-in-then-semi-out.visible {
+            opacity: 1;
+            color: #ffffff;
+        }
+        .content-list li.fragment.fade-in-then-semi-out.visible.current-fragment {
+            color: #ffffff;
+        }
+
+        /* Section divider */
+        .section-divider {
+            text-align: center;
+        }
+        .section-divider h1 {
+            font-size: 3em;
+            margin-bottom: 0.2em;
+            text-shadow: 0 4px 30px rgba(0,0,0,0.3);
+        }
+        .section-sub {
+            font-size: 1.2em;
+            color: rgba(255,255,255,0.7);
+            font-style: italic;
+        }
+
+        /* End slide */
+        .end-slide {
+            text-align: center;
+        }
+        .end-slide h1 {
+            font-size: 3.2em;
+            margin-bottom: 0.1em;
+        }
+        .end-divider {
+            width: 140px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
+            margin: 0.6em auto;
+            border-radius: 2px;
+        }
+        .end-title {
+            font-size: 1em;
+            color: #8ecae6;
+        }
+        .end-cta {
+            font-size: 0.85em;
+            color: #5d6d7e;
+            margin-top: 1em;
+        }
+
+        /* Speaker notes are handled natively by Reveal.js --
+           press S while presenting to see them */
+
+        /* Progress bar styling */
+        .reveal .progress {
+            color: var(--accent-blue);
+            height: 4px;
+        }
+
+        /* Slide number */
+        .reveal .slide-number {
+            font-size: 0.6em;
+            color: #5d6d7e;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+                <section data-background-gradient="radial-gradient(circle at 30% 50%, #0078D4 0%, #001a33 70%)" data-transition="zoom">
+                    <div class="title-slide">
+                        <div class="title-decoration"></div>
+                        <h1>Beginner Best Practices For GitHub Copilot Agents In VS Code</h1>
+                        <p class="subtitle">15 slides  |  BI, Data Science, Data Engineering</p>
+                        <div class="title-divider"></div>
+                        <p class="branding">AI Coding Agent Training &nbsp;|&nbsp; GitHub Copilot in VS Code</p>
+                    </div>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#0078D4">TITLE</span>
+                            <span class="slide-num">1/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Title</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">Beginner Best Practices For GitHub Copilot Agents In VS Code</li>
+                        <li class="fragment fade-in-then-semi-out">Foundation module for BI, DS, and DE teams</li>
+                    </ul>
+
+                    <aside class="notes">
+                        This is the behavior baseline for the rest of the curriculum. The focus is not feature coverage. The focus is safe and repeatable use.<br>Ask learners to name one task where faster output would be dangerous if it changed business meaning, experiment setup, or production operations.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#0078D4">OBJECTIVES</span>
+                            <span class="slide-num">2/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Learning Objectives</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">choose Ask, Plan, or Agent appropriately</li>
+                        <li class="fragment fade-in-then-semi-out">write more specific prompts</li>
+                        <li class="fragment fade-in-then-semi-out">review AI output before accepting it</li>
+                        <li class="fragment fade-in-then-semi-out">understand basic guardrails and limits</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Tell learners that these habits matter more than any single shortcut or feature.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">3/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Copilot Is An Assistant, Not An Authority</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">strong drafting tool</li>
+                        <li class="fragment fade-in-then-semi-out">not a replacement for human judgment</li>
+                        <li class="fragment fade-in-then-semi-out">can be wrong, incomplete, or overconfident</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Set the tone early: AI output is a draft, not a decision.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">4/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Safe Beginner Workflow</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">Ask for orientation</li>
+                        <li class="fragment fade-in-then-semi-out">Plan for multi-step work</li>
+                        <li class="fragment fade-in-then-semi-out">Agent for bounded execution</li>
+                        <li class="fragment fade-in-then-semi-out">review before accepting</li>
+                    </ul>
+
+                    <aside class="notes">
+                        This sequence should become the default mental model for beginners.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">5/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Strong Prompt Basics</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">clear goal</li>
+                        <li class="fragment fade-in-then-semi-out">narrow scope</li>
+                        <li class="fragment fade-in-then-semi-out">intended audience</li>
+                        <li class="fragment fade-in-then-semi-out">expected output</li>
+                        <li class="fragment fade-in-then-semi-out">validation step</li>
+                    </ul>
+
+                    <aside class="notes">
+                        This is the easiest reusable template learners can take back to work.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">6/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Give Better Context</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">active file and selection</li>
+                        <li class="fragment fade-in-then-semi-out">`#file`</li>
+                        <li class="fragment fade-in-then-semi-out">`#codebase`</li>
+                        <li class="fragment fade-in-then-semi-out">`#fetch`</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Point out that weak context often looks like weak AI, even when the real issue is the prompt setup.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">7/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Common Beginner Mistakes</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">asking for too much at once</li>
+                        <li class="fragment fade-in-then-semi-out">starting with Agent too early</li>
+                        <li class="fragment fade-in-then-semi-out">accepting plausible output without review</li>
+                        <li class="fragment fade-in-then-semi-out">mixing unrelated tasks in one chat</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Encourage learners to recognize these as normal mistakes, not personal failures.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#2ecc71"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#2ecc71">EXAMPLE</span>
+                            <span class="slide-num">8/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #2ecc71; padding-left: 0.5em;">BI Example</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">improve a sales KPI glossary safely</li>
+                        <li class="fragment fade-in-then-semi-out">preserve revenue, margin, and YTD definitions</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Use a concrete example such as a sales dashboard glossary where terms like gross margin and net sales already have approved definitions.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#2ecc71"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#2ecc71">EXAMPLE</span>
+                            <span class="slide-num">9/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #2ecc71; padding-left: 0.5em;">DS Example</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">explain a churn-model notebook workflow</li>
+                        <li class="fragment fade-in-then-semi-out">ask for environment, seed, and data-version notes</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Connect prompt quality to experimental reliability. Show how a missing seed or data snapshot note can make a notebook look reproducible when it is not.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#2ecc71"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#2ecc71">EXAMPLE</span>
+                            <span class="slide-num">10/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #2ecc71; padding-left: 0.5em;">DE Example</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">review an Airflow pipeline runbook</li>
+                        <li class="fragment fade-in-then-semi-out">ask for upstream dependency and retry validation guidance</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Emphasize operational caution and dependency awareness. A safe improvement is clarifying what to check before rerunning a failed daily load.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">11/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Review Before Accepting</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">read diffs</li>
+                        <li class="fragment fade-in-then-semi-out">verify commands</li>
+                        <li class="fragment fade-in-then-semi-out">confirm the output matches the ask</li>
+                        <li class="fragment fade-in-then-semi-out">reject or refine when needed</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Repeat the rule: never accept a change you cannot explain.
+                    </aside>
+                </section>
+
+                <section data-background-gradient="linear-gradient(135deg, #0078D4 0%, #00b4d8 100%)" data-transition="zoom">
+                    <div class="section-divider">
+                        <h1>Hands-On Lab</h1>
+                        <p class="section-sub">Time to practice</p>
+                    </div>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#2ecc71"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#2ecc71">LAB</span>
+                            <span class="slide-num">12/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #2ecc71; padding-left: 0.5em;">Hands-On Lab</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">improve one weak prompt</li>
+                        <li class="fragment fade-in-then-semi-out">choose the safest mode</li>
+                        <li class="fragment fade-in-then-semi-out">write one review rule</li>
+                        <li class="fragment fade-in-then-semi-out">define one team guardrail</li>
+                    </ul>
+
+                    <aside class="notes">
+                        This is a short lab. The goal is habit formation, not large output.<br>Demo cue: have learners rewrite one weak prompt from their own backlog and explain why their revised version is safer.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#e74c3c"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#e74c3c">VALIDATION</span>
+                            <span class="slide-num">13/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #e74c3c; padding-left: 0.5em;">Validation Checklist</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">learner can explain modes</li>
+                        <li class="fragment fade-in-then-semi-out">learner can improve prompt quality</li>
+                        <li class="fragment fade-in-then-semi-out">learner can state a review rule</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Use this slide to confirm readiness for module 02.<br>Point forward explicitly: module 02 turns these review habits into actual product setup and readiness checks.
+                    </aside>
+                </section>
+
+                <section data-background-gradient="linear-gradient(135deg, #0078D4 0%, #00b4d8 100%)" data-transition="zoom">
+                    <div class="section-divider">
+                        <h1>Reflection</h1>
+                        <p class="section-sub">What did you learn?</p>
+                    </div>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#9b59b6"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#9b59b6">REFLECTION</span>
+                            <span class="slide-num">14/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #9b59b6; padding-left: 0.5em;">Reflection</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">what guardrail matters most?</li>
+                        <li class="fragment fade-in-then-semi-out">what mistake is most likely in your team?</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Ask learners to answer from their real BI, DS, or DE workflows.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#95a5a6"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#95a5a6">REFERENCES</span>
+                            <span class="slide-num">15/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #95a5a6; padding-left: 0.5em;">References</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">VS Code Copilot overview</li>
+                        <li class="fragment fade-in-then-semi-out">VS Code AI best practices</li>
+                        <li class="fragment fade-in-then-semi-out">VS Code agents tutorial</li>
+                        <li class="fragment fade-in-then-semi-out">Workspace reference: references/copilot-agent-beginner-best-practices.md</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Show the workspace reference file and explain that it translates the official docs into the local beginner baseline.
+                    </aside>
+                </section>
+
+                <section data-background-gradient="radial-gradient(circle at 70% 50%, #0078D4 0%, #001a33 70%)" data-transition="zoom">
+                    <div class="end-slide">
+                        <h1>Thank You</h1>
+                        <div class="end-divider"></div>
+                        <p class="end-title">Beginner Best Practices For GitHub Copilot Agents In VS Code</p>
+                        <p class="end-cta">Questions &amp; Discussion</p>
+                    </div>
+                </section>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: 'c/t',
+            showSlideNumber: 'all',
+            transition: 'slide',
+            transitionSpeed: 'default',
+            backgroundTransition: 'fade',
+            center: true,
+            progress: true,
+            controls: true,
+            controlsTutorial: true,
+            plugins: [RevealNotes],
+            width: 1920,
+            height: 1080,
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Skills, Agents, And Plugins</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+    <style>
+        /* ---- Custom theme overrides ---- */
+        :root {
+            --r-background-color: #0f1729;
+            --r-heading-color: #ffffff;
+            --r-main-color: #e0e6ed;
+            --r-link-color: #00b4d8;
+            --accent-blue: #0078D4;
+            --accent-green: #2ecc71;
+            --accent-red: #e74c3c;
+        }
+
+        .reveal {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        .reveal h1, .reveal h2, .reveal h3 {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-weight: 600;
+            text-transform: none;
+            letter-spacing: -0.02em;
+        }
+
+        .reveal h1 { font-size: 2.4em; }
+        .reveal h2 { font-size: 1.6em; color: #ffffff; }
+
+        /* Title slide */
+        .title-slide {
+            text-align: left;
+            padding-left: 2em;
+        }
+        .title-slide h1 {
+            font-size: 2.6em;
+            line-height: 1.15;
+            margin-bottom: 0.3em;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+        }
+        .title-slide .subtitle {
+            font-size: 1.1em;
+            color: #8ecae6;
+            margin-bottom: 1em;
+        }
+        .title-decoration {
+            width: 80px;
+            height: 4px;
+            background: var(--accent-green);
+            margin-bottom: 1.5em;
+            border-radius: 2px;
+        }
+        .title-divider {
+            width: 120px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+            margin: 0.8em 0;
+            border-radius: 2px;
+        }
+        .title-slide .branding {
+            font-size: 0.75em;
+            color: #5d6d7e;
+            margin-top: 1.5em;
+        }
+
+        /* Slide header bar */
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8em;
+        }
+        .accent-line {
+            height: 3px;
+            flex-grow: 1;
+            border-radius: 2px;
+            margin-right: 1em;
+        }
+        .slide-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.6em;
+            flex-shrink: 0;
+        }
+        .slide-badge {
+            font-size: 0.55em;
+            padding: 0.15em 0.6em;
+            border-radius: 20px;
+            color: white;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .slide-num {
+            font-size: 0.6em;
+            color: #5d6d7e;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Content bullets */
+        .content-list {
+            list-style: none;
+            text-align: left;
+            padding-left: 0;
+            margin-top: 0.6em;
+        }
+        .content-list li {
+            position: relative;
+            padding-left: 1.6em;
+            margin-bottom: 0.55em;
+            font-size: 0.85em;
+            line-height: 1.5;
+            color: #c8d6e5;
+        }
+        .content-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.55em;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-blue);
+        }
+
+        /* Fragment animation */
+        .content-list li.fragment.fade-in-then-semi-out.visible {
+            opacity: 1;
+            color: #ffffff;
+        }
+        .content-list li.fragment.fade-in-then-semi-out.visible.current-fragment {
+            color: #ffffff;
+        }
+
+        /* Section divider */
+        .section-divider {
+            text-align: center;
+        }
+        .section-divider h1 {
+            font-size: 3em;
+            margin-bottom: 0.2em;
+            text-shadow: 0 4px 30px rgba(0,0,0,0.3);
+        }
+        .section-sub {
+            font-size: 1.2em;
+            color: rgba(255,255,255,0.7);
+            font-style: italic;
+        }
+
+        /* End slide */
+        .end-slide {
+            text-align: center;
+        }
+        .end-slide h1 {
+            font-size: 3.2em;
+            margin-bottom: 0.1em;
+        }
+        .end-divider {
+            width: 140px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
+            margin: 0.6em auto;
+            border-radius: 2px;
+        }
+        .end-title {
+            font-size: 1em;
+            color: #8ecae6;
+        }
+        .end-cta {
+            font-size: 0.85em;
+            color: #5d6d7e;
+            margin-top: 1em;
+        }
+
+        /* Speaker notes are handled natively by Reveal.js --
+           press S while presenting to see them */
+
+        /* Progress bar styling */
+        .reveal .progress {
+            color: var(--accent-blue);
+            height: 4px;
+        }
+
+        /* Slide number */
+        .reveal .slide-number {
+            font-size: 0.6em;
+            color: #5d6d7e;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+                <section data-background-gradient="radial-gradient(circle at 30% 50%, #0078D4 0%, #001a33 70%)" data-transition="zoom">
+                    <div class="title-slide">
+                        <div class="title-decoration"></div>
+                        <h1>Advanced Skills, Agents, And Plugins</h1>
+                        <p class="subtitle">13 slides  |  BI, Data Science, Data Engineering</p>
+                        <div class="title-divider"></div>
+                        <p class="branding">AI Coding Agent Training &nbsp;|&nbsp; GitHub Copilot in VS Code</p>
+                    </div>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#0078D4">TITLE</span>
+                            <span class="slide-num">1/13</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Module Purpose</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">Module 08 moves from safe beginner use into controlled advanced design.</li>
+                        <li class="fragment fade-in-then-semi-out">The main goal is to choose the right building block for the job.</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Introduce this as the first advanced module after the beginner core. Learners should leave with a decision model, not just more terminology.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">2/13</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Why This Matters</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">A repeated checklist is not automatically an agent.</li>
+                        <li class="fragment fade-in-then-semi-out">An agent is not useful if it lacks the capability access it needs.</li>
+                        <li class="fragment fade-in-then-semi-out">A plugin does not provide judgment by itself.</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Teams often create unnecessary automation because they skip the classification step.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">3/13</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Core Definitions</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">Skill: reusable guidance, method, checklist, or pattern for a type of work.</li>
+                        <li class="fragment fade-in-then-semi-out">Agent: task execution workflow that can reason across steps and carry a task forward.</li>
+                        <li class="fragment fade-in-then-semi-out">Plugin: external capability provider such as an extension, MCP server, or integration.</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Keep the definitions simple and repeat them exactly.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">4/13</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Decision Rules</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">Missing consistency: start with a skill.</li>
+                        <li class="fragment fade-in-then-semi-out">Missing multi-step execution: add an agent.</li>
+                        <li class="fragment fade-in-then-semi-out">Missing system access: add a plugin.</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Encourage learners to ask one question first: what is actually missing?
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">5/13</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">How They Work Together</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">Skill sets the method.</li>
+                        <li class="fragment fade-in-then-semi-out">Agent runs the workflow.</li>
+                        <li class="fragment fade-in-then-semi-out">Plugin provides external access.</li>
+                        <li class="fragment fade-in-then-semi-out">A notebook reproducibility skill defines the review checklist.</li>
+                        <li class="fragment fade-in-then-semi-out">A review agent executes the checklist across files.</li>
+                        <li class="fragment fade-in-then-semi-out">A plugin exposes experiment metadata or artifact access.</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Show the layered pattern rather than teaching the parts in isolation.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#2ecc71"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#2ecc71">EXAMPLE</span>
+                            <span class="slide-num">6/13</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #2ecc71; padding-left: 0.5em;">BI Example</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">Skill: monthly KPI release checklist for gross margin, net sales, and YTD revenue.</li>
+                        <li class="fragment fade-in-then-semi-out">Agent: report review agent that compares README guidance, glossary terms, and release notes.</li>
+                        <li class="fragment fade-in-then-semi-out">Plugin: Power BI or metadata integration that exposes model context.</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Use a concrete reporting example instead of generic automation language.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#2ecc71"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#2ecc71">EXAMPLE</span>
+                            <span class="slide-num">7/13</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #2ecc71; padding-left: 0.5em;">DS Example</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">Skill: notebook reproducibility standard covering seeds, package versions, and dataset snapshots.</li>
+                        <li class="fragment fade-in-then-semi-out">Agent: experiment review agent that inspects notebook notes and dependency files.</li>
+                        <li class="fragment fade-in-then-semi-out">Plugin: registry or experiment-tracking integration.</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Keep the example grounded in reproducibility and experiment discipline.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#2ecc71"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#2ecc71">EXAMPLE</span>
+                            <span class="slide-num">8/13</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #2ecc71; padding-left: 0.5em;">DE Example</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">Skill: failed-pipeline triage checklist.</li>
+                        <li class="fragment fade-in-then-semi-out">Agent: incident summary agent that reviews logs, runbooks, and validation notes.</li>
+                        <li class="fragment fade-in-then-semi-out">Plugin: orchestration or log integration for external state.</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Focus on incident triage rather than promising automatic fixes.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">9/13</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Governance Checks</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">Define scope before enabling the workflow.</li>
+                        <li class="fragment fade-in-then-semi-out">Keep plugin permissions narrow.</li>
+                        <li class="fragment fade-in-then-semi-out">Require observable validation output.</li>
+                        <li class="fragment fade-in-then-semi-out">Keep a human approval checkpoint for risky actions.</li>
+                    </ul>
+
+                    <aside class="notes">
+                        This slide is the control point. Do not rush through it.
+                    </aside>
+                </section>
+
+                <section data-background-gradient="linear-gradient(135deg, #0078D4 0%, #00b4d8 100%)" data-transition="zoom">
+                    <div class="section-divider">
+                        <h1>Hands-On Lab</h1>
+                        <p class="section-sub">Time to practice</p>
+                    </div>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#2ecc71"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#2ecc71">LAB</span>
+                            <span class="slide-num">10/13</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #2ecc71; padding-left: 0.5em;">Design Exercise</h2>
+
+
+                    <aside class="notes">
+                        Ask learners to classify one workflow from their own team.<br>Write the workflow outcome in one sentence.<br>Label what belongs in a skill.<br>Label what belongs in an agent.<br>Label what requires plugin access.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#e74c3c"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#e74c3c">VALIDATION</span>
+                            <span class="slide-num">11/13</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #e74c3c; padding-left: 0.5em;">Validation Check</h2>
+
+
+                    <aside class="notes">
+                        Learners should be able to justify the architecture, not just label the boxes.<br>Why is this not only a checklist?<br>Why is this not only a plugin?<br>What stays manual?
+                    </aside>
+                </section>
+
+                <section data-background-gradient="linear-gradient(135deg, #0078D4 0%, #00b4d8 100%)" data-transition="zoom">
+                    <div class="section-divider">
+                        <h1>Reflection</h1>
+                        <p class="section-sub">What did you learn?</p>
+                    </div>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#9b59b6"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#9b59b6">REFLECTION</span>
+                            <span class="slide-num">12/13</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #9b59b6; padding-left: 0.5em;">Reflection</h2>
+
+
+                    <aside class="notes">
+                        Ask where the team should deliberately avoid more automation.<br>What task is over-automated today?<br>Where would a reusable skill help immediately?<br>Which plugin request would need the strongest review?
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#95a5a6"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#95a5a6">REFERENCES</span>
+                            <span class="slide-num">13/13</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #95a5a6; padding-left: 0.5em;">References</h2>
+
+
+                    <aside class="notes">
+                        Point learners to the local comparison reference so the terminology stays consistent across later modules.<br>`references/skills-agents-and-plugins-differences.md`<br>`references/copilot-agent-beginner-best-practices.md`<br>`references/awesome-copilot-agents-for-presentation-improvement.md`
+                    </aside>
+                </section>
+
+                <section data-background-gradient="radial-gradient(circle at 70% 50%, #0078D4 0%, #001a33 70%)" data-transition="zoom">
+                    <div class="end-slide">
+                        <h1>Thank You</h1>
+                        <div class="end-divider"></div>
+                        <p class="end-title">Advanced Skills, Agents, And Plugins</p>
+                        <p class="end-cta">Questions &amp; Discussion</p>
+                    </div>
+                </section>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: 'c/t',
+            showSlideNumber: 'all',
+            transition: 'slide',
+            transitionSpeed: 'default',
+            backgroundTransition: 'fade',
+            center: true,
+            progress: true,
+            controls: true,
+            controlsTutorial: true,
+            plugins: [RevealNotes],
+            width: 1920,
+            height: 1080,
+        });
+    </script>
+</body>
+</html>

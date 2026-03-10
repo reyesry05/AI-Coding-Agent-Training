@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Up GitHub Copilot Agents In VS Code</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+    <style>
+        /* ---- Custom theme overrides ---- */
+        :root {
+            --r-background-color: #0f1729;
+            --r-heading-color: #ffffff;
+            --r-main-color: #e0e6ed;
+            --r-link-color: #00b4d8;
+            --accent-blue: #0078D4;
+            --accent-green: #2ecc71;
+            --accent-red: #e74c3c;
+        }
+
+        .reveal {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        .reveal h1, .reveal h2, .reveal h3 {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-weight: 600;
+            text-transform: none;
+            letter-spacing: -0.02em;
+        }
+
+        .reveal h1 { font-size: 2.4em; }
+        .reveal h2 { font-size: 1.6em; color: #ffffff; }
+
+        /* Title slide */
+        .title-slide {
+            text-align: left;
+            padding-left: 2em;
+        }
+        .title-slide h1 {
+            font-size: 2.6em;
+            line-height: 1.15;
+            margin-bottom: 0.3em;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+        }
+        .title-slide .subtitle {
+            font-size: 1.1em;
+            color: #8ecae6;
+            margin-bottom: 1em;
+        }
+        .title-decoration {
+            width: 80px;
+            height: 4px;
+            background: var(--accent-green);
+            margin-bottom: 1.5em;
+            border-radius: 2px;
+        }
+        .title-divider {
+            width: 120px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+            margin: 0.8em 0;
+            border-radius: 2px;
+        }
+        .title-slide .branding {
+            font-size: 0.75em;
+            color: #5d6d7e;
+            margin-top: 1.5em;
+        }
+
+        /* Slide header bar */
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8em;
+        }
+        .accent-line {
+            height: 3px;
+            flex-grow: 1;
+            border-radius: 2px;
+            margin-right: 1em;
+        }
+        .slide-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.6em;
+            flex-shrink: 0;
+        }
+        .slide-badge {
+            font-size: 0.55em;
+            padding: 0.15em 0.6em;
+            border-radius: 20px;
+            color: white;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .slide-num {
+            font-size: 0.6em;
+            color: #5d6d7e;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Content bullets */
+        .content-list {
+            list-style: none;
+            text-align: left;
+            padding-left: 0;
+            margin-top: 0.6em;
+        }
+        .content-list li {
+            position: relative;
+            padding-left: 1.6em;
+            margin-bottom: 0.55em;
+            font-size: 0.85em;
+            line-height: 1.5;
+            color: #c8d6e5;
+        }
+        .content-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.55em;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-blue);
+        }
+
+        /* Fragment animation */
+        .content-list li.fragment.fade-in-then-semi-out.visible {
+            opacity: 1;
+            color: #ffffff;
+        }
+        .content-list li.fragment.fade-in-then-semi-out.visible.current-fragment {
+            color: #ffffff;
+        }
+
+        /* Section divider */
+        .section-divider {
+            text-align: center;
+        }
+        .section-divider h1 {
+            font-size: 3em;
+            margin-bottom: 0.2em;
+            text-shadow: 0 4px 30px rgba(0,0,0,0.3);
+        }
+        .section-sub {
+            font-size: 1.2em;
+            color: rgba(255,255,255,0.7);
+            font-style: italic;
+        }
+
+        /* End slide */
+        .end-slide {
+            text-align: center;
+        }
+        .end-slide h1 {
+            font-size: 3.2em;
+            margin-bottom: 0.1em;
+        }
+        .end-divider {
+            width: 140px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
+            margin: 0.6em auto;
+            border-radius: 2px;
+        }
+        .end-title {
+            font-size: 1em;
+            color: #8ecae6;
+        }
+        .end-cta {
+            font-size: 0.85em;
+            color: #5d6d7e;
+            margin-top: 1em;
+        }
+
+        /* Speaker notes are handled natively by Reveal.js --
+           press S while presenting to see them */
+
+        /* Progress bar styling */
+        .reveal .progress {
+            color: var(--accent-blue);
+            height: 4px;
+        }
+
+        /* Slide number */
+        .reveal .slide-number {
+            font-size: 0.6em;
+            color: #5d6d7e;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+                <section data-background-gradient="radial-gradient(circle at 30% 50%, #0078D4 0%, #001a33 70%)" data-transition="zoom">
+                    <div class="title-slide">
+                        <div class="title-decoration"></div>
+                        <h1>Set Up GitHub Copilot Agents In VS Code</h1>
+                        <p class="subtitle">15 slides  |  BI, Data Science, Data Engineering</p>
+                        <div class="title-divider"></div>
+                        <p class="branding">AI Coding Agent Training &nbsp;|&nbsp; GitHub Copilot in VS Code</p>
+                    </div>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#0078D4">TITLE</span>
+                            <span class="slide-num">1/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Title</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">Set Up GitHub Copilot Agents In VS Code</li>
+                        <li class="fragment fade-in-then-semi-out">Beginner setup module</li>
+                        <li class="fragment fade-in-then-semi-out">Technical staff familiar with VS Code, new to agents</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Open by clarifying that this session is about readiness and safe first use.<br>The goal is not advanced prompting. The goal is to make sure learners can get into the product, confirm that agents are available, and use them without guessing.<br>Assume learners already know the module 01 baseline: Ask, Plan, Agent, then review. This module turns that behavior model into actual product readiness and prepares them for module 03 prompt work.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#0078D4">OBJECTIVES</span>
+                            <span class="slide-num">2/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Learning Objectives</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">Explain the prerequisites for GitHub Copilot agents</li>
+                        <li class="fragment fade-in-then-semi-out">Verify Copilot, Chat, and agent availability</li>
+                        <li class="fragment fade-in-then-semi-out">Open a suitable workspace for agent context</li>
+                        <li class="fragment fade-in-then-semi-out">Start a first safe session using Ask, Plan, then Agent</li>
+                        <li class="fragment fade-in-then-semi-out">Review output before accepting it</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Tell learners that if they leave with only one behavior change, it should be this: start with lower-risk interaction modes and verify before accepting.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">3/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">What Learners Need Before Starting</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">Windows with Visual Studio Code installed</li>
+                        <li class="fragment fade-in-then-semi-out">GitHub account</li>
+                        <li class="fragment fade-in-then-semi-out">GitHub Copilot entitlement or Copilot Free</li>
+                        <li class="fragment fade-in-then-semi-out">GitHub Copilot and GitHub Copilot Chat extensions enabled</li>
+                        <li class="fragment fade-in-then-semi-out">Small practice workspace open in VS Code</li>
+                        <li class="fragment fade-in-then-semi-out">GitHub or Azure DevOps repository access when practicing in a team workflow</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Clarify the difference between having a GitHub account and having Copilot access.<br>Mention that Copilot Free can be enough for first exposure, depending on current plan limits.<br>Tie the examples back to BI, data science, and data engineering teams so the setup feels relevant.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">4/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Common Setup Blockers</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">Wrong GitHub account signed in</li>
+                        <li class="fragment fade-in-then-semi-out">Missing or disabled extensions</li>
+                        <li class="fragment fade-in-then-semi-out">Agent picker not visible</li>
+                        <li class="fragment fade-in-then-semi-out">Organization policy disabling agent features</li>
+                        <li class="fragment fade-in-then-semi-out">Empty or irrelevant workspace causing generic answers</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Normalize these blockers. Beginners often assume they are doing something wrong when the real issue is licensing, policy, or missing extensions.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">5/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Step 1: Confirm Account And Product Access</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">Sign in to GitHub in VS Code</li>
+                        <li class="fragment fade-in-then-semi-out">Check the Copilot status bar entry</li>
+                        <li class="fragment fade-in-then-semi-out">Confirm the correct account has Copilot access</li>
+                        <li class="fragment fade-in-then-semi-out">Copilot shows as available instead of prompting for sign-in or purchase</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Demonstrate where learners can confirm identity inside VS Code.<br>If your organization uses multiple GitHub identities, stress that this is the first thing to verify.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">6/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Step 2: Verify Extensions</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">Open Extensions</li>
+                        <li class="fragment fade-in-then-semi-out">Confirm GitHub Copilot is installed and enabled</li>
+                        <li class="fragment fade-in-then-semi-out">Confirm GitHub Copilot Chat is installed and enabled</li>
+                        <li class="fragment fade-in-then-semi-out">Reload VS Code if needed</li>
+                        <li class="fragment fade-in-then-semi-out">Chat entry point is visible</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Explain that chat availability and agent availability are related but not identical.<br>If Chat exists but Agent does not, the environment still needs more investigation.
+                    </aside>
+                </section>
+
+                <section data-background-gradient="linear-gradient(135deg, #0078D4 0%, #00b4d8 100%)" data-transition="zoom">
+                    <div class="section-divider">
+                        <h1>Hands-On Lab</h1>
+                        <p class="section-sub">Time to practice</p>
+                    </div>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#2ecc71"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#2ecc71">LAB</span>
+                            <span class="slide-num">7/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #2ecc71; padding-left: 0.5em;">Step 3: Verify Agents Are Available</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">Open Chat with Ctrl+Alt+I</li>
+                        <li class="fragment fade-in-then-semi-out">Look for Ask, Plan, and Agent</li>
+                        <li class="fragment fade-in-then-semi-out">If missing, update VS Code and extensions first</li>
+                        <li class="fragment fade-in-then-semi-out">If still missing, check organization policy or tenant restrictions</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Show the agent picker if possible.<br>State clearly that agent features can be admin-controlled.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">8/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Step 4: Open A Good Workspace</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">Use a small, relevant practice folder</li>
+                        <li class="fragment fade-in-then-semi-out">Prefer a safe sample from GitHub or Azure DevOps if the team already works that way</li>
+                        <li class="fragment fade-in-then-semi-out">Keep only related files open</li>
+                        <li class="fragment fade-in-then-semi-out">If needed, create a simple README or starter file for context</li>
+                        <li class="fragment fade-in-then-semi-out">Better context improves agent output quality</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Explain why an empty workspace leads to vague answers.<br>Connect this to the broader habit of supplying explicit context.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">9/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Safe Beginner Progression</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">Ask for orientation or explanation</li>
+                        <li class="fragment fade-in-then-semi-out">Plan for structure and task breakdown</li>
+                        <li class="fragment fade-in-then-semi-out">Agent only after the goal and success criteria are clear</li>
+                    </ul>
+
+                    <aside class="notes">
+                        This sequence prevents beginners from over-delegating too early.<br>Reinforce that Agent is useful, but not the default first move.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">10/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Demo Prompt Sequence</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">Ask: Explain what files are in this workspace and what kind of project it appears to be.</li>
+                        <li class="fragment fade-in-then-semi-out">Plan: Create a short plan for adding a beginner-friendly setup guide for GitHub Copilot agents to this workspace.</li>
+                        <li class="fragment fade-in-then-semi-out">Agent: Create a draft README section that lists the prerequisites for using GitHub Copilot agents in VS Code. Keep it beginner-friendly and Windows-first.</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Read each prompt slowly and point out why it is safe.<br>Show that the prompts specify scope, tone, and expected output.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#0078D4"></div>
+                        <div class="slide-meta">
+                            
+                            <span class="slide-num">11/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #0078D4; padding-left: 0.5em;">Review Before Accepting</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">Read diffs</li>
+                        <li class="fragment fade-in-then-semi-out">Check proposed commands before running them</li>
+                        <li class="fragment fade-in-then-semi-out">Compare output to the original request</li>
+                        <li class="fragment fade-in-then-semi-out">Verify at least one visible detail before accepting</li>
+                        <li class="fragment fade-in-then-semi-out">Never accept a change you cannot explain</li>
+                    </ul>
+
+                    <aside class="notes">
+                        This is the core guardrail of the entire module.<br>Give one example of a plausible-looking but incomplete result.
+                    </aside>
+                </section>
+
+                <section data-background-gradient="linear-gradient(135deg, #0078D4 0%, #00b4d8 100%)" data-transition="zoom">
+                    <div class="section-divider">
+                        <h1>Hands-On Lab</h1>
+                        <p class="section-sub">Time to practice</p>
+                    </div>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#2ecc71"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#2ecc71">LAB</span>
+                            <span class="slide-num">12/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #2ecc71; padding-left: 0.5em;">Hands-On Lab</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">Sign in to the correct GitHub account</li>
+                        <li class="fragment fade-in-then-semi-out">Verify extensions</li>
+                        <li class="fragment fade-in-then-semi-out">Confirm Ask, Plan, and Agent availability</li>
+                        <li class="fragment fade-in-then-semi-out">Open a small practice workspace</li>
+                        <li class="fragment fade-in-then-semi-out">Run one Ask, one Plan, and one Agent prompt</li>
+                        <li class="fragment fade-in-then-semi-out">Record one thing you verified before accepting output</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Keep the lab observable.<br>Encourage learners to capture screenshots or short notes of each success check.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#e74c3c"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#e74c3c">VALIDATION</span>
+                            <span class="slide-num">13/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #e74c3c; padding-left: 0.5em;">Validation Checklist</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">Learner can list prerequisites</li>
+                        <li class="fragment fade-in-then-semi-out">Learner can explain the difference between Chat and agent access</li>
+                        <li class="fragment fade-in-then-semi-out">Learner can identify Ask, Plan, and Agent or explain why unavailable</li>
+                        <li class="fragment fade-in-then-semi-out">Learner can write one specific low-risk starter prompt</li>
+                        <li class="fragment fade-in-then-semi-out">Learner can describe one verification step they performed</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Use this slide as the completion check for the session.<br>If a learner cannot demonstrate one of these items, stop and resolve that gap before moving on.
+                    </aside>
+                </section>
+
+                <section data-background-gradient="linear-gradient(135deg, #0078D4 0%, #00b4d8 100%)" data-transition="zoom">
+                    <div class="section-divider">
+                        <h1>Reflection</h1>
+                        <p class="section-sub">What did you learn?</p>
+                    </div>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#9b59b6"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#9b59b6">REFLECTION</span>
+                            <span class="slide-num">14/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #9b59b6; padding-left: 0.5em;">Reflection</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">What setup step caused the most friction?</li>
+                        <li class="fragment fade-in-then-semi-out">Why start with Ask or Plan before Agent?</li>
+                        <li class="fragment fade-in-then-semi-out">What makes a workspace useful to an agent?</li>
+                        <li class="fragment fade-in-then-semi-out">What review rule should every beginner follow?</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Use this as a debrief rather than a quiz.<br>The reflection is intended to strengthen habits, not test memorization.
+                    </aside>
+                </section>
+
+                <section data-background-color="#0f1729" data-transition="slide">
+                    <div class="slide-header">
+                        <div class="accent-line" style="background:#95a5a6"></div>
+                        <div class="slide-meta">
+                            <span class="slide-badge" style="background:#95a5a6">REFERENCES</span>
+                            <span class="slide-num">15/15</span>
+                        </div>
+                    </div>
+                    <h2 style="border-left: 4px solid #95a5a6; padding-left: 0.5em;">References</h2>
+
+                    <ul class="content-list">
+                        <li class="fragment fade-in-then-semi-out">VS Code Copilot overview</li>
+                        <li class="fragment fade-in-then-semi-out">VS Code chat overview</li>
+                        <li class="fragment fade-in-then-semi-out">VS Code agents tutorial</li>
+                        <li class="fragment fade-in-then-semi-out">VS Code AI best practices</li>
+                        <li class="fragment fade-in-then-semi-out">GitHub Copilot best practices</li>
+                        <li class="fragment fade-in-then-semi-out">Workspace reference: references/copilot-agent-beginner-best-practices.md</li>
+                    </ul>
+
+                    <aside class="notes">
+                        Encourage learners to rely on first-party documentation when product behavior changes.<br>Mention that internal training material should be updated when official UI or policies change.
+                    </aside>
+                </section>
+
+                <section data-background-gradient="radial-gradient(circle at 70% 50%, #0078D4 0%, #001a33 70%)" data-transition="zoom">
+                    <div class="end-slide">
+                        <h1>Thank You</h1>
+                        <div class="end-divider"></div>
+                        <p class="end-title">Set Up GitHub Copilot Agents In VS Code</p>
+                        <p class="end-cta">Questions &amp; Discussion</p>
+                    </div>
+                </section>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: 'c/t',
+            showSlideNumber: 'all',
+            transition: 'slide',
+            transitionSpeed: 'default',
+            backgroundTransition: 'fade',
+            center: true,
+            progress: true,
+            controls: true,
+            controlsTutorial: true,
+            plugins: [RevealNotes],
+            width: 1920,
+            height: 1080,
+        });
+    </script>
+</body>
+</html>
