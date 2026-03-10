@@ -84,7 +84,7 @@ When editing existing files, fix any lint violations you encounter in the conten
 
 ## Copilot-Specific Standards
 
-Prefer Ask, then Plan, then Agent for beginner progression.
+Prefer Research (project start), then Ask, then Edit, then Plan, then Agent for beginner progression. Research means searching top GitHub repos for proven patterns and reviewing Azure Well-Architected Framework guidance; it is a project-inception step, not repeated per task.
 Require visible validation steps and observable outputs.
 Avoid prompts that encourage broad or unreviewable edits.
 Ground guidance in first-party documentation whenever possible.

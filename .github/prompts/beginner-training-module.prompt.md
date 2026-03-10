@@ -33,7 +33,7 @@ Quality constraints:
 
 - Write for beginners with direct, plain language
 - Keep prompts specific and safe
-- Prefer Ask, then Edit, then Plan, then Agent as the learner progression unless the request says otherwise
+- Prefer Research (project inception), then Ask, then Edit, then Plan, then Agent as the learner progression unless the request says otherwise. Research means using AI agents to search top GitHub repos for proven patterns and reviewing Azure Well-Architected Framework guidance before writing code; it is done once at project start, not repeated per task.
 - Require visible validation steps and observable outputs
 - Do not assume advanced coding experience unless the request explicitly says so
 - Avoid assuming GitHub-hosted source control only; mention Azure DevOps when repository workflow matters

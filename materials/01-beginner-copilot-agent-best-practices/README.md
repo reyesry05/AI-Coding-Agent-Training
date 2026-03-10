@@ -37,18 +37,26 @@ Common failure mode and fix:
 
 ## Walkthrough
 
-GitHub Copilot in VS Code provides four interaction modes ordered from least to most autonomous: **Ask**, **Edit**, **Plan**, and **Agent**.
+GitHub Copilot in VS Code provides four per-task interaction modes ordered from least to most autonomous: **Ask**, **Edit**, **Plan**, and **Agent**.
 For a visual overview of the evolution and capabilities behind these modes, see [GitHub Copilot Reimagine Overview](../../references/github-copilot-reimagine-overview.md).
+
+The full beginner workflow has two levels:
+
+- **Research** (project-inception step, done once): Before writing code for a new project, use Copilot agents to search top GitHub repositories for proven patterns and review Azure Well-Architected Framework guidance. This saves time and surfaces lessons and trade-offs from real-world implementations.
+- **Ask > Edit > Plan > Agent** (per-task loop, repeated): Once the project goals are clear, use the lowest-autonomy mode that fits each task.
 
 Recommended beginner workflow:
 
-1. Start with `Ask` when you need explanation, orientation, or low-risk guidance.
-2. Use `Edit` when you know which files need targeted changes and want a diff you can review inline.
-3. Use `Plan` when the task is multi-step and you want to review the approach before changes are made.
-4. Use `Agent` only after the task is clear enough that autonomous edits are appropriate.
-5. Add context explicitly with `#` references when the workspace is large or the request is ambiguous.
-6. Review diffs, terminal actions, and outputs before treating the result as correct.
-7. Capture repeated preferences in instructions instead of restating them in every prompt.
+1. **Research** (project start only): Ask Copilot to find top GitHub repos for your problem domain. Review patterns, library choices, and trade-offs. Check Azure WAF guidance for your workload.
+2. Start with `Ask` when you need explanation, orientation, or low-risk guidance.
+3. Use `Edit` when you know which files need targeted changes and want a diff you can review inline.
+4. Use `Plan` when the task is multi-step and you want to review the approach before changes are made.
+5. Use `Agent` only after the task is clear enough that autonomous edits are appropriate.
+6. Add context explicitly with `#` references when the workspace is large or the request is ambiguous.
+7. Review diffs, terminal actions, and outputs before treating the result as correct.
+8. Capture repeated preferences in instructions instead of restating them in every prompt.
+
+For day-to-day tasks (bug fixes, small edits), skip straight to step 2. Research is a project-kickoff habit, not a per-task ritual. See [Copilot Agent Beginner Best Practices](../../references/copilot-agent-beginner-best-practices.md) for Research step details and example prompts.
 
 ## Best Practices For Beginners
 

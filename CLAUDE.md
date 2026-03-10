@@ -65,7 +65,7 @@ AI Coding Agent Training/
 - Short paragraphs. Concrete examples over abstract explanation.
 - ASCII only unless there is a clear reason for Unicode.
 - Every procedure must include: goal, exact action or command, what success looks like, one common failure mode and fix.
-- Prefer Ask > Plan > Agent progression for beginner content.
+- Prefer Research > Ask > Edit > Plan > Agent as the full beginner workflow. Research is a project-inception step (search top GitHub repos and review Azure Well-Architected Framework before writing code); Ask/Edit/Plan/Agent are the per-task loop.
 - Keep examples realistic for BI, data science, and data engineering workflows.
 - Assume Windows + PowerShell unless a module explicitly targets another environment.
 
