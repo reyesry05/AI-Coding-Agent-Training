@@ -62,24 +62,122 @@ Goal of the step:
 Exact action:
 
 1. Open your project folder in VS Code.
-2. If prompted, click **Trust this workspace**.
-3. Open markdown preview with `Ctrl+Shift+V` (single tab preview).
-4. Open side-by-side markdown preview with `Ctrl+K`, then `V`.
-5. Install or confirm these extensions:
+1. If prompted, click **Trust this workspace**.
+1. Open **Settings** with `Ctrl+,` and verify baseline options:
+
+- `Workbench: Editor: Enable Preview` = enabled
+- `Workbench: Settings: Open Default Settings` = JSON (optional, recommended for advanced users)
+
+1. Open Command Palette (`Ctrl+Shift+P`) and run **Preferences: Open User
+   Settings (JSON)**.
+1. Use these exact paths if you need to open `settings.json` directly:
+
+- Windows: `%APPDATA%\\Code\\User\\settings.json`
+- Windows expanded example: `C:\\Users\\<username>\\AppData\\Roaming\\Code\\User\\settings.json`
+- macOS: `~/Library/Application Support/Code/User/settings.json`
+
+1. Add or confirm this `settings.json` template (copy/paste):
+
+```jsonc
+{
+   // ---------- General workflow ----------
+  "explorer.confirmDelete": false,
+  "git.enableSmartCommit": true,
+  "chat.viewSessions.orientation": "stacked",
+
+   // ---------- Markdown review defaults ----------
+   // Open markdown in rendered preview by default.
+   "workbench.editorAssociations": {
+      "*.md": "vscode.markdown.preview.editor"
+   },
+   "[markdown]": {
+      "editor.wordWrap": "on",
+      "editor.quickSuggestions": false
+   },
+
+   // ---------- Copilot tool approvals ----------
+   // DANGER: Keep terminal/command auto-approval OFF to prevent unattended
+   // system, Azure, GitHub, or remote repository changes.
+   "chat.tools.terminal.autoApprove": false,
+   "chat.tools.command.autoApprove": false,
+   "chat.tools.edits.autoApprove": {
+      // Allow low-risk documentation updates only.
+      "references/**": true,
+      "materials/**": true,
+      "labs/**": true,
+      "**": false
+   },
+
+   // ---------- Web search ----------
+   // Enables external web lookup in chat tools.
+   // DANGER: Data may come from outside your repository context.
+   "chat.anthropic.tools.websearch.enabled": true,
+
+   // ---------- File access scope ----------
+   // Keep read scope narrow to reduce accidental data exposure.
+  "chat.additionalReadAccessPaths": [
+      "${workspaceFolder}",
+      "${workspaceFolder}/references"
+  ]
+}
+```
+
+1. Do not enable blanket auto-approval for terminal or command tools. Keep
+   those manual, and only auto-approve edits in low-risk documentation paths.
+
+1. Guardrail profile for documentation-focused workflows:
+
+```jsonc
+{
+   // Keep command execution manual.
+   "chat.tools.terminal.autoApprove": false,
+   "chat.tools.command.autoApprove": false,
+   "chat.tools.edits.autoApprove": {
+      // Allow docs-only edits and block everything else.
+      "references/**": true,
+      "materials/**": true,
+      "labs/**": true,
+      "**": false
+   }
+}
+```
+
+1. Save `settings.json` and confirm there is only one
+   `chat.additionalReadAccessPaths` key.
+1. Open markdown preview with `Ctrl+Shift+V` (single tab preview).
+1. Open side-by-side markdown preview with `Ctrl+K`, then `V`.
+1. Install or confirm these extensions:
 
 - `github.copilot`
 - `github.copilot-chat`
 - `davidanson.vscode-markdownlint`
 
+1. In a markdown file, run **Markdown: Open Preview to the Side** from Command
+   Palette to verify command access if shortcuts fail.
+1. Set permanent default formatted view for `.md` files (one-time):
+
+1. Right-click any markdown file tab.
+1. Select **Open With...**.
+1. Choose **Markdown Preview**.
+1. Select **Set as Default**.
+1. Reopen any markdown file and confirm it opens in rendered format by default.
+
 What success looks like:
 
 - Markdown files render correctly in preview.
+- Markdown files open in rendered format by default after reopening VS Code.
 - Copilot Chat and markdown lint diagnostics are visible.
+- `settings.json` saves without duplicate keys for the same setting.
 
 Common failure mode and fix:
 
 - Failure: `Ctrl+K V` does nothing.
 - Fix: Press `Ctrl+K`, release keys, then press `V`.
+- Failure: A setting appears ignored in `settings.json`.
+- Fix: Remove duplicate keys (for example duplicate `chat.additionalReadAccessPaths`) and keep a single final definition.
+- Failure: Markdown still opens in plain text editor.
+- Fix: Run **Open With...** on a markdown tab and set **Markdown Preview** as
+   default again, then restart VS Code.
 
 ## Step 3. Agent Approval Workflow (Smooth + Safe)
 
@@ -91,8 +189,9 @@ Exact action:
 
 1. Open Copilot Chat and switch to Agent mode.
 2. Run a low-risk prompt, such as documenting a README section.
-3. On tool prompt, choose **Continue (allow for session)** for safe, repetitive actions.
-4. Keep high-risk actions manually gated (destructive commands, external system changes).
+3. Use session-scoped allow only for low-risk edit tools in docs paths.
+4. Keep terminal and command actions manual to prevent system, Azure, GitHub,
+   and remote repository changes.
 
 What success looks like:
 
@@ -102,7 +201,9 @@ What success looks like:
 Common failure mode and fix:
 
 - Failure: Everything is auto-approved with no review habit.
-- Fix: Use session-scoped allow only for low-risk tasks and keep manual review checkpoints.
+- Fix: Turn off `chat.tools.terminal.autoApprove` and
+   `chat.tools.command.autoApprove`, then restrict
+   `chat.tools.edits.autoApprove` to docs-only paths.
 
 ## Step 4. Connect To Repository (GitHub Or Azure DevOps)
 
@@ -140,7 +241,7 @@ Common failure mode and fix:
 Exact action:
 
 1. Copy the HTTPS clone URL from Azure DevOps (`https://dev.azure.com/.../_git/...`).
-2. In PowerShell terminal:
+1. In PowerShell terminal:
 
 ```powershell
 git clone https://dev.azure.com/<org>/<project>/_git/<repo>
@@ -149,17 +250,53 @@ git remote -v
 git pull
 ```
 
-1. If prompted for credentials, use your Azure DevOps Personal Access Token (PAT) as the password.
+1. When authentication prompts appear, use this order:
+
+- First choice: **Sign in with browser** (recommended for most BI/DE teams on
+   corporate Microsoft Entra ID).
+- Second choice: **PAT** only when browser/device sign-in is blocked by policy,
+   proxy, or conditional access issues.
+
+1. Browser sign-in flow (recommended):
+
+1. In the Git Credential Manager prompt, select **Sign in with your browser**.
+1. Sign in with your work account used for Azure DevOps access.
+1. Complete MFA or conditional access prompts.
+1. Accept consent for Git Credential Manager if prompted.
+1. Return to terminal and re-run `git pull` to confirm access.
+
+1. PAT fallback flow (if browser sign-in fails):
+
+1. In Azure DevOps, open user settings and create a new Personal Access Token.
+1. Set a short expiration (team policy based).
+1. Minimum scope for repo work: **Code (Read & write)**.
+1. Copy the PAT once and store it in your approved password vault.
+1. Retry `git pull`; if asked for credentials, use your Azure DevOps username
+   and paste PAT as password.
+
+1. Validate that auth is working:
+
+```powershell
+git remote -v
+git pull
+git fetch --all --prune
+```
 
 What success looks like:
 
 - Clone succeeds and `origin` points to your Azure DevOps repo.
-- Pull succeeds using stored credentials.
+- Pull and fetch succeed without repeated auth prompts.
+- Subsequent Git commands reuse stored credentials in the same workstation profile.
 
 Common failure mode and fix:
 
 - Failure: `fatal: Authentication failed`.
-- Fix: Create a PAT with repo read/write scope, sign out stale credentials in Credential Manager, then retry clone/pull.
+- Fix: Open **Windows Credential Manager**, remove stale `dev.azure.com`
+   entries, then retry browser sign-in. If browser sign-in still fails, use PAT
+   fallback with **Code (Read & write)** scope.
+- Failure: MFA succeeds but terminal still denies access.
+- Fix: Confirm your account has repo permission in the Azure DevOps project and
+   verify the clone URL matches the correct org/project/repo path.
 
 ## Step 5. Health Check Commands
 
@@ -186,7 +323,7 @@ If `gh` or `az` are missing, install them from [Developer Toolbox](developer-too
 | Read markdown cleanly | `Ctrl+Shift+V` | Use `Ctrl+K`, `V` for side-by-side |
 | Reduce approval friction | Use Agent mode on low-risk task | Choose **Continue (allow for session)** |
 | Connect to GitHub repo | Clone with HTTPS URL | Verify with `git remote -v` and `git pull` |
-| Connect to Azure DevOps repo | Clone `dev.azure.com` HTTPS URL | Authenticate with PAT if prompted |
+| Connect to Azure DevOps repo | Clone `dev.azure.com` HTTPS URL | Use browser sign-in first, PAT fallback if needed |
 | Confirm readiness | Run version checks | Run one test prompt in Copilot Chat |
 
 ## Day-1 Team Baseline (Recommended)
