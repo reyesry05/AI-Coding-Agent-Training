@@ -196,13 +196,21 @@ Install these from the Extensions panel (`Ctrl+Shift+X`).
 
 ## Reading Markdown in VS Code
 
+> **Tip -- Cannot read a `.md` file?** You do NOT need to install anything extra.
+> VS Code renders markdown out of the box. Open any `.md` file, then press
+> `Ctrl+Shift+V` for a full-screen preview, or `Ctrl+K V` (two separate key
+> presses) for a side-by-side view. If you still see raw markdown, make sure the
+> file is the active editor tab before pressing the shortcut.
+
 Learners do not need any extra tools to read markdown files. VS Code has built-in support:
 
 | Action | Shortcut | Description |
 |---|---|---|
 | Full-screen preview | `Ctrl+Shift+V` | Opens rendered markdown in a new tab |
-| Side-by-side preview | `Ctrl+K V` | Shows source on left, preview on right |
-| Toggle editor/preview | Click the preview icon in the top-right of any `.md` tab | Switches between source and preview |
+| Side-by-side preview | `Ctrl+K V` (two separate key presses) | Shows source on left, preview on right |
+| Toggle editor/preview | Click the preview icon (book with magnifying glass) in the top-right of any `.md` tab | Switches between source and preview |
+
+**Common gotcha:** If pressing `Ctrl+K V` does nothing, you likely pressed both keys at the same time. Press `Ctrl+K` first, release, then press `V`.
 
 With the **markdownlint** extension installed, you also see inline warnings for any formatting issues directly in the editor.
 

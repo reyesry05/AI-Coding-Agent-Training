@@ -1,0 +1,15 @@
+{
+  // Markdown UX: Open .md files in rendered preview by default.
+  "workbench.editorAssociations": {
+    "*.md": "vscode.markdown.preview.editor"
+  },
+
+  // Agent approvals (Gemini Code Assist):
+  // Enables YOLO mode so agent actions are auto-approved.
+  "geminicodeassist.agentYoloMode": true,
+
+  // Agent approvals (GitHub Copilot Claude Agent):
+  // Danger zone: skips permission prompts for Claude Agent actions.
+  // Use only in trusted training repos.
+  "github.copilot.chat.claudeAgent.allowDangerouslySkipPermissions": true
+}
