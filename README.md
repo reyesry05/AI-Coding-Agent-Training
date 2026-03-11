@@ -42,6 +42,7 @@ The current repository posture is public because the content is generic training
 - `references/awesome-copilot-agents-for-presentation-improvement.md`
 - `references/copilot-chat-quick-commands.md`
 - `references/cli-for-ai-agents-safety-and-power.md`
+- `references/developer-environment-starter-guide.md`
 - `references/developer-toolbox.md`
 - `references/git-and-github-desktop-reference.md`
 - `references/presentation-review-findings.md`
