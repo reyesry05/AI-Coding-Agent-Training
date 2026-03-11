@@ -200,6 +200,45 @@ Use this baseline for onboarding consistency:
 - One successful clone + pull from GitHub or Azure DevOps
 - One successful Copilot Chat prompt in the target repo
 
+## Manager Onboarding Checklist (Copy/Paste)
+
+Use this section as a ready-to-run checklist for new team members.
+
+### Before first coding task
+
+- Confirm developer has a licensed GitHub Copilot account and correct sign-in identity in VS Code.
+- Confirm VS Code workspace opens in trusted mode.
+- Confirm markdown preview works with `Ctrl+Shift+V` and `Ctrl+K`, `V`.
+- Confirm Copilot Chat opens and responds in the target repository.
+
+### Source control readiness
+
+- Confirm repository clone succeeds from GitHub or Azure DevOps.
+- Confirm `git remote -v` shows expected `origin` URL.
+- Confirm `git pull` succeeds without repeated auth prompts.
+- Confirm PAT process is documented for Azure DevOps users.
+
+### Copilot operating guardrails
+
+- Require Ask or Plan before Agent on unfamiliar tasks.
+- Allow session-scoped approvals only for low-risk repetitive actions.
+- Keep manual approval for destructive commands or external system changes.
+- Require diff review before commit or pull request creation.
+
+### Evidence to collect in week 1
+
+- One screenshot of markdown side-by-side preview.
+- One sample prompt and Copilot response tied to a real repo task.
+- One reviewed diff showing keep, revise, or reject decision.
+- One troubleshooting note captured by the learner.
+
+### Completion criteria
+
+- Developer can run day-1 tasks without setup help.
+- Developer can explain when to use Ask, Plan, and Agent.
+- Developer can connect and authenticate to the team repo workflow.
+- Developer follows review and approval checkpoints consistently.
+
 ## Related References
 
 - [Developer Toolbox](developer-toolbox.md)
