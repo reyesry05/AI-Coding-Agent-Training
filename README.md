@@ -41,6 +41,7 @@ The current repository posture is public because the content is generic training
 - `references/copilot-agent-beginner-best-practices.md`
 - `references/awesome-copilot-agents-for-presentation-improvement.md`
 - `references/copilot-chat-quick-commands.md`
+- `references/cli-for-ai-agents-safety-and-power.md`
 - `references/developer-toolbox.md`
 - `references/git-and-github-desktop-reference.md`
 - `references/presentation-review-findings.md`
@@ -59,6 +60,23 @@ The current repository posture is public because the content is generic training
 - Current visibility: public
 - Rationale: the content is generic, reusable training material and does not expose company-specific code, architecture, or confidential operating practices.
 - If future content becomes company-specific, move it to a private repository or split generic and internal materials into separate repositories.
+
+## Community Q&A Policy
+
+This repository now uses GitHub Discussions for community questions and answers.
+
+Allowed content:
+
+- Generic, reusable questions about GitHub Copilot workflows, prompts, labs, and training modules in this repository.
+- High-level architecture context that is already intentionally public (for example, broad tool categories or platform names).
+
+Not allowed in public Discussions:
+
+- Detailed corporate architecture, security, network, identity, tenant, environment, or deployment setup details.
+- Internal runbooks, operational procedures, troubleshooting steps, or configuration specifics tied to a company environment.
+- Questions that request or reveal non-public details about corporate systems, repositories, or implementation setup.
+
+If a question needs corporate-specific detail, move it to a private channel or private repository.
 
 ## Current Release Focus
 

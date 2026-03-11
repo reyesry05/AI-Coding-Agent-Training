@@ -129,8 +129,26 @@ Before considering a module complete, verify:
 
 - This repository is currently intended to be public.
 - Only publish generic training material that does not contain Reyes Holdings-specific code, architecture, credentials, customer information, or internal operating details.
+- GitHub Discussions in this repository must stay generic and reusable; do not post detailed corporate or environment setup details.
 - If a module becomes company-specific, either redact the sensitive content or move that material to a private repository.
 - Before publishing new content, confirm that examples, screenshots, and prompts do not reveal internal systems or private data.
+
+## Discussion Posting Guardrails
+
+Use public Discussions only for content that can safely be shared with external audiences.
+
+Allowed in public Discussions:
+
+- Questions and answers about module content, lab tasks, prompt quality, and validation methods.
+- High-level technical stack references without sensitive implementation detail.
+
+Do not post in public Discussions:
+
+- Detailed corporate setup, including tenant topology, environment names, networking, IAM configuration, or security controls.
+- Company-specific repository structure, pipelines, internal endpoints, credentials, logs, or incident context.
+- Requests that require internal architecture diagrams, private runbooks, or non-public operations guidance.
+
+For corporate-specific or setup-specific requests, direct contributors to a private collaboration channel.
 
 ## When To Update Workspace Instructions
 
