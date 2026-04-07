@@ -1,0 +1,39 @@
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for contributing to the community knowledge base.
+
+        This repository is public. Keep all posts generic and reusable.
+
+        Do not include detailed corporate architecture or setup information.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: Ask a generic, reusable question tied to this training repository.
+      placeholder: What are you trying to do, and where are you stuck?
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Public Context
+      description: Provide only non-sensitive context.
+      placeholder: Module name, lab step, expected behavior, and what you observed.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Required Confirmations
+      options:
+        - label: I confirm this post does not include detailed corporate or environment setup information.
+          required: true
+        - label: I confirm this post does not include credentials, internal endpoints, tenant details, or private architecture data.
+          required: true
+        - label: I confirm this question can be answered publicly and is useful to the broader community.
+          required: true

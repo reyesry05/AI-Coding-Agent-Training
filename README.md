@@ -52,6 +52,8 @@ This workspace contains training materials for technical teams learning to use G
 - `references/copilot-agent-approval-settings.md`
 - `references/copilot-chat-quick-commands.md`
 - `references/skills-agents-and-plugins-differences.md`
+- `references/cli-for-ai-agents-safety-and-power.md`
+- `references/developer-environment-starter-guide.md`
 - `references/developer-toolbox.md`
 - `references/git-and-github-desktop-reference.md`
 - `references/github-copilot-reimagine-overview.md`
@@ -69,3 +71,32 @@ This workspace contains training materials for technical teams learning to use G
 - Continue slide development for modules 09 through 14.
 - Add starter and solution artifacts for modules 11 through 14 labs.
 - Add facilitator guidance for the advanced track (modules 08 through 14).
+
+## Repository Visibility
+
+- Current visibility: public
+- Rationale: the content is generic, reusable training material and does not expose company-specific code, architecture, or confidential operating practices.
+- If future content becomes company-specific, move it to a private repository or split generic and internal materials into separate repositories.
+
+## Community Q&A Policy
+
+This repository now uses GitHub Discussions for community questions and answers.
+
+Allowed content:
+
+- Generic, reusable questions about GitHub Copilot workflows, prompts, labs, and training modules in this repository.
+- High-level architecture context that is already intentionally public (for example, broad tool categories or platform names).
+
+Not allowed in public Discussions:
+
+- Detailed corporate architecture, security, network, identity, tenant, environment, or deployment setup details.
+- Internal runbooks, operational procedures, troubleshooting steps, or configuration specifics tied to a company environment.
+- Questions that request or reveal non-public details about corporate systems, repositories, or implementation setup.
+
+If a question needs corporate-specific detail, move it to a private channel or private repository.
+
+## Current Release Focus
+
+- Modules 01 through 14 are present in the workspace.
+- The repository is intended to be shareable as a public training curriculum.
+- Shared governance and sharing guidance is documented in `references/repository-visibility-and-sharing.md`.
