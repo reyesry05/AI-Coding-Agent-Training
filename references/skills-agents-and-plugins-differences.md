@@ -23,6 +23,34 @@ It is intended to help learners choose the right advanced Copilot building block
 | Agent | Multi-step execution | Scoped task completion with iteration | A simple checklist or reference is enough | Review summary, generated artifacts, updates, decisions |
 | Plugin | External capability access | Access to systems, tools, data, or services | The task can be solved with local context and prompts | Tool results, external data, system actions |
 
+## When To Use Advanced Capabilities (One-Page Summary)
+
+Use this summary when deciding quickly what to apply.
+
+| If your need is... | Use this first | Add this when needed | Keep this guardrail |
+| --- | --- | --- | --- |
+| Team repeats the same task and gets inconsistent output | Skill | Instructions for persistent file or repo standards | Keep the skill specific and observable |
+| Task needs multi-step reasoning and execution | Agent | Skill for method consistency | Require a human checkpoint before risky actions |
+| Copilot must access external systems or data | Plugin or MCP server | Agent to orchestrate calls safely | Start read-only and minimal permissions |
+| Rules must always apply in matching files | Instructions | Skill for reusable workflow steps | Scope with precise `applyTo` patterns |
+| Workflow needs trigger-based automation | Hooks | Agent to coordinate steps | Log every hook and fail closed on validation errors |
+| Delivery pipeline needs speed without production risk | Agent-assisted CI/CD | Hooks and policy checks in pipelines | Protect prod with mandatory approvals |
+
+### Fast Rule Of Thumb
+
+1. Start with instructions for always-on standards.
+2. Add a skill for reusable workflow guidance.
+3. Add an agent only when execution is multi-step.
+4. Add plugin or MCP access only when external capability is required.
+5. Add hooks only for explicit trigger points.
+
+### When Not To Use Advanced Skills
+
+- Do not use a skill when a single prompt solves a one-off task.
+- Do not use an agent when a checklist is enough.
+- Do not add plugin or MCP access before role and approval boundaries exist.
+- Do not automate destructive or production-impacting actions without human approval.
+
 ## Decision Guide
 
 Ask these questions in order:

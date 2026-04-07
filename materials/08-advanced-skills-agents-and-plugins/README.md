@@ -228,6 +228,7 @@ Expected observable output:
 
 - Workspace reference: `references/skills-agents-and-plugins-differences.md`
 - [GitHub Copilot Reimagine Overview](../../references/github-copilot-reimagine-overview.md)
+- [What are Agents, Skills, and Instructions](https://awesome-copilot.github.com/learning-hub/what-are-agents-skills-instructions/) -- Core fundamentals and layering model
 - GitHub Copilot coding agent guidance: <https://docs.github.com/en/copilot/tutorials/coding-agent/get-the-best-results>
 - GitHub MCP Server: <https://aka.ms/GitHubMCP>
 - Azure MCP Server: <https://aka.ms/AzMCP>

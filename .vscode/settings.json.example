@@ -1,0 +1,27 @@
+{
+    // =================================================================
+    //  FULL AUTO-APPROVE ("YOLO MODE") -- WORKSPACE SCOPE
+    //  Copilot will act without confirmation on every action.
+    //  Only use in trusted, version-controlled workspaces.
+    //  See: references/copilot-agent-approval-settings.md
+    // =================================================================
+
+    // --- Master switch -----------------------------------------------
+    "chat.tools.global.autoApprove": true,
+
+    // --- Terminal commands -------------------------------------------
+    "chat.tools.terminal.autoApprove": {
+        "/.*/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    },
+
+    // --- URL access --------------------------------------------------
+    "chat.tools.urls.autoApprove": {
+        "https://*": true
+    },
+
+    // --- Edit retries ------------------------------------------------
+    "chat.editing.confirmEditRequestRetry": false
+}
