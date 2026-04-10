@@ -156,6 +156,72 @@ Common failure mode and fix:
 
 See [labs/13-hooks-and-agentic-workflows/README.md](../../labs/13-hooks-and-agentic-workflows/README.md).
 
+## Worked Example: Hooks for the PBIP Semantic Model Change Workflow
+
+**Scenario:** The BI team stores their Power BI semantic model as Power BI Project (PBIP) files in a GitHub repository. They add a pre-hook and a post-hook to the Copilot workflow so that every agent-driven model change is validated before it runs and documented after it completes.
+
+**Pre-hook -- Validate measure naming before any model modification**
+
+Before the agent calls any `measure_operations` (update or create), a pre-hook checks that proposed measure names follow the team's PascalCase convention:
+
+```python
+# pre-hook: validate_measure_names.py
+import re, sys, json
+
+changes = json.load(sys.stdin)  # agent passes proposed changes as JSON
+pattern = re.compile(r'^[A-Z][a-zA-Z]+\[[A-Z][a-zA-Z ]+\]$')
+violations = [
+    name for name in changes.get('measure_names', [])
+    if not pattern.match(name)
+]
+
+if violations:
+    print(f"HOOK FAILED: Non-conforming measure names: {violations}")
+    sys.exit(1)
+print("HOOK PASSED: All measure names conform to convention.")
+```
+
+**What success looks like:** The hook runs before any MCP write operation and blocks the change if names do not conform, surfacing the violation to the developer before the model is touched.
+
+**Common failure mode and fix:**
+
+- Failure: The hook blocks a valid name because the regex does not account for measures in display-format tables like `[Total Revenue YTD]`.
+- Fix: Test the regex against your team's actual measure name library before deploying the hook. Ask Copilot: "Write a test suite for this regex pattern using these 10 measure names from our model."
+
+**Post-hook -- Generate a model change summary**
+
+After the agent completes a batch of model modifications, a post-hook appends an entry to the team changelog:
+
+```python
+# post-hook: generate_model_changelog.py
+import json, sys
+from datetime import date
+
+changes = json.load(sys.stdin)
+today = date.today().isoformat()
+
+entry = f"""
+## {today}
+
+**Modified by:** Copilot agent session
+**Tables affected:** {', '.join(changes.get('tables', []))}
+**Measures added:** {len(changes.get('measures_added', []))}
+**Measures renamed:** {len(changes.get('measures_renamed', []))}
+**Descriptions updated:** {len(changes.get('descriptions_updated', []))}
+"""
+
+with open('MODEL_CHANGELOG.md', 'a') as f:
+    f.write(entry)
+print("Changelog entry written to MODEL_CHANGELOG.md.")
+```
+
+**What success looks like:** After each agent session, `MODEL_CHANGELOG.md` is updated automatically. The git diff shows AI-generated model changes alongside a human-readable summary, creating a clear audit trail for the team.
+
+**Common failure mode and fix:**
+
+- Failure: The changelog is written but never staged, so it does not appear in the PR.
+- Fix: Add `git add MODEL_CHANGELOG.md` as the final line of the hook, or add it to the agent's instruction file as a required post-action.
+
 ## Validation Checklist
 
 - [ ] Learner can explain the difference between hooks, skills, and agents.

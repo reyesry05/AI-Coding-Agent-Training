@@ -159,6 +159,62 @@ Common failure mode and fix:
 
 See [labs/14-safe-ci-cd-with-ai-agents/README.md](../../labs/14-safe-ci-cd-with-ai-agents/README.md).
 
+## Worked Example: CI/CD for Power BI Semantic Models with PBIP Files
+
+**Scenario:** The BI team's Power BI semantic model lives as PBIP files (TMDL format) in a GitHub repository. GitHub Copilot assists developers with model changes, and a CI/CD pipeline controls deployment to the Fabric workspace.
+
+**AI and human responsibilities per CI/CD stage:**
+
+| Stage | AI Role | Human Role |
+| --- | --- | --- |
+| Coding | Draft TMDL changes, generate DAX measures, add descriptions | Review diffs in VS Code, verify measure logic |
+| Validation | Run DAX tests via `dax_query_operations`, check naming conventions | Confirm test results, approve PR |
+| Release | Draft deployment plan, generate release notes summarizing model changes | Approve deployment to Fabric workspace |
+| Post-release | Run smoke-test DAX queries against deployed model | Verify dashboards load correctly, sign off |
+
+**Example GitHub Actions workflow (validation step on PR):**
+
+```yaml
+name: Validate Power BI Semantic Model
+on:
+  pull_request:
+    paths:
+      - 'sales-model.Dataset/**'
+jobs:
+  validate-model:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check TMDL naming conventions
+        run: python scripts/validate_tmdl_naming.py sales-model.Dataset/definition/tables/
+      - name: Check all measures have descriptions
+        run: python scripts/check_measure_descriptions.py sales-model.Dataset/definition/tables/
+```
+
+**Copilot prompts that fit into this workflow:**
+
+```text
+Review the TMDL files changed in this PR. List any measures that are missing descriptions or violate the PascalCase naming convention.
+```
+
+```text
+Generate release notes for this PR summarizing every measure that was added, renamed, or updated, in plain language appropriate for a non-technical stakeholder.
+```
+
+**Rollback procedure for a bad model release:**
+
+1. Revert the merge commit: `git revert <merge-commit-sha>`.
+2. Open a PR with the revert commit and add the label `emergency-rollback`.
+3. After approval, the CI/CD pipeline deploys the reverted PBIP files to Fabric automatically.
+4. Confirm dashboards are restored by running the smoke-test DAX queries from the post-release stage.
+
+**What success looks like:** Developers propose model changes through Copilot, validate them automatically in CI, and deploy to Fabric with a human approval gate. No change reaches production without passing the naming and description checks.
+
+**Common failure mode and fix:**
+
+- Failure: The Fabric deployment step fails because the service principal lacks the Contributor role on the workspace.
+- Fix: Check role assignments in the Fabric admin portal. The service principal used by the deployment step needs at minimum the **Contributor** role on the target workspace. Ask Copilot: "What Fabric RBAC role is required to deploy a semantic model from a PBIP file to a Fabric workspace?"
+
 ## Validation Checklist
 
 - [ ] Learner mapped AI and human responsibilities per CI/CD stage.

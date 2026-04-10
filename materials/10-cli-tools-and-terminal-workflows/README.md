@@ -413,6 +413,46 @@ Common failure mode and fix:
 
 See [labs/10-cli-tools-and-terminal-workflows/README.md](../../labs/10-cli-tools-and-terminal-workflows/README.md).
 
+## Worked Example: dbt and GitHub CLI for the Distribution Company Data Team
+
+**Scenario:** The data engineering team owns the Snowflake dbt project that populates the tables powering the company's Power BI sales semantic model. After authenticating the GitHub CLI in the previous section, use Copilot to manage the daily release cycle from the VS Code terminal.
+
+**Prompt 1 -- Run dbt tests and capture the output**
+
+```text
+Run dbt tests for the sales mart layer only and save the full output to dbt_test_results.txt. Then tell me whether all tests passed or list any failures.
+```
+
+Copilot generates and runs:
+
+```powershell
+dbt test --select tag:mart 2>&1 | Tee-Object -FilePath dbt_test_results.txt
+Select-String -Path dbt_test_results.txt -Pattern "^(FAIL|ERROR)" | Format-List
+```
+
+**What success looks like:** A `dbt_test_results.txt` file exists, and Copilot reports pass or fail clearly in chat.
+
+**Prompt 2 -- Create a GitHub issue for any failures**
+
+```text
+If dbt_test_results.txt contains any FAIL lines, create a GitHub issue titled "dbt test failures [today's date]" with those lines as the body and apply the label data-quality.
+```
+
+**Prompt 3 -- Commit the fix and open a pull request with evidence**
+
+```text
+Stage all changed SQL files in the models/ folder, commit with the message "fix: correct null handling in stg_sales_orders", then open a pull request to main. Use the dbt test summary from dbt_test_results.txt as the PR description body. Mark it ready for review.
+```
+
+Copilot chains `git add models/`, `git commit`, and `gh pr create` in sequence, reading the output of each step before proceeding.
+
+**What success looks like:** The full test-validate-commit-PR loop completes from a single natural language prompt. The PR body contains the actual test output, giving reviewers immediate evidence of what was validated.
+
+**Common failure mode and fix:**
+
+- Failure: `dbt` is not found in the terminal PATH.
+- Fix: Ask Copilot: "Which Python virtual environment has dbt installed, and how do I activate it in this PowerShell terminal?" Copilot checks available environments and generates the activation command.
+
 ## Validation Checklist
 
 - [ ] Learner can explain the generate > approve > execute > read output cycle.

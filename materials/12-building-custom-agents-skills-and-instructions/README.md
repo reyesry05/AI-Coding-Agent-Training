@@ -180,6 +180,74 @@ Common failure mode and fix:
 
 See [labs/12-building-custom-agents-skills-and-instructions/README.md](../../labs/12-building-custom-agents-skills-and-instructions/README.md).
 
+## Worked Example: Custom Artifacts for the BI Team's Power BI Modeling Workflow
+
+**Scenario:** The BI team wants consistent Copilot behavior across all Power BI model files and wants to turn the Power BI Modeling MCP Server usage (from module 11) into a repeatable, reviewable workflow. They create one artifact of each type.
+
+**Artifact 1 -- Instructions for DAX coding standards**
+
+Create `.github/instructions/powerbi-dax.instructions.md`:
+
+```yaml
+---
+applyTo: "**/definition/tables/**/*.tmdl, **/*.dax"
+---
+
+Use PascalCase for measure names prefixed with the table name: Sales[Total Revenue], Sales[PY Total Revenue].
+Always include a measure description written in plain business language.
+Never reference a column without qualifying the table name.
+Do not use CALCULATE with an empty filter unless you include an explicit comment explaining why.
+```
+
+**What success looks like:** When Copilot generates or reviews DAX code in TMDL files, it automatically follows the team naming and documentation convention without needing a reminder in every prompt.
+
+**Artifact 2 -- Skill for bulk measure documentation**
+
+Create `.github/skills/pbi-measure-documentation/SKILL.md`:
+
+```markdown
+# pbi-measure-documentation
+
+When to use: Invoke this skill after a major model release or before deploying to Fabric,
+when measures are missing descriptions or have placeholder text.
+
+Steps:
+1. Connect to the target model using /ConnectToPowerBIDesktop or /ConnectToFabric.
+2. List all measures grouped by table.
+3. For each measure with a missing or placeholder description, generate a plain-language
+   description that explains the metric and summarizes the DAX logic.
+4. Present the proposed descriptions as a table before applying any changes.
+5. Wait for explicit approval, then apply using measure_operations (update).
+6. Run a final list to confirm all measures have non-empty descriptions.
+```
+
+**What success looks like:** Any team member can invoke this skill on any model and get consistent, reviewable documentation without writing a custom prompt each time.
+
+**Artifact 3 -- Agent for Power BI model review**
+
+Create `.github/agents/pbi-model-reviewer.agent.md`:
+
+```markdown
+---
+name: PBI Model Reviewer
+description: Reviews Power BI semantic models for naming convention compliance,
+             missing documentation, and relationship integrity.
+tools: [powerbi-modeling-mcp]
+---
+
+You are a Power BI modeling expert for a food and beverage distribution company.
+Review semantic models for correctness, consistency, and documentation quality.
+
+Before suggesting any change, always:
+1. List the current state of the target objects.
+2. Explain the issue in plain business terms.
+3. Propose the fix and wait for explicit human approval.
+4. Never execute destructive operations (delete table, delete relationship) without
+   first showing a full impact analysis.
+```
+
+**What success looks like:** When a developer opens this agent, Copilot adopts the reviewer persona and enforces the plan-before-change behavior automatically, regardless of how the prompt is worded.
+
 ## Validation Checklist
 
 - [ ] Learner classified scenarios into instructions, skills, and agents correctly.

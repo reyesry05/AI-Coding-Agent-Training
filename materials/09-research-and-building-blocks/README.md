@@ -238,6 +238,47 @@ Common failure mode and fix:
 
 See [labs/09-research-and-building-blocks/README.md](../../labs/09-research-and-building-blocks/README.md).
 
+## Worked Example: Researching a Power BI Modeling Workflow
+
+**Scenario:** Your BI team maintains sales and operations dashboards for a food and beverage distribution company. The team wants to start versioning Power BI semantic models in git using Power BI Project (PBIP) files and has heard that an AI agent can help with bulk model changes. Before writing any agent prompts or installing new tools, run a structured research session.
+
+**Round 1 -- Discover existing PBIP patterns with `@github`**
+
+```text
+@github Search for Power BI Project PBIP semantic model git versioning CI/CD examples
+```
+
+Copilot searches GitHub and may surface the `microsoft/powerbi-modeling-mcp` repository, Microsoft PBIP documentation, and community examples. Look for recurring patterns: TMDL folder structure, Fabric CLI deployment steps, and GitHub Actions templates.
+
+**Round 2 -- Broaden with web search**
+
+```text
+#web What are Power BI Project PBIP files and how do teams use them for CI/CD and AI-assisted model development?
+```
+
+**Round 3 -- Evaluate the Power BI Modeling MCP Server**
+
+```text
+#fetch https://github.com/microsoft/powerbi-modeling-mcp
+
+Summarize what this MCP server does, what modeling operations it supports, its current stability status, and one security consideration your team should review before enabling write operations.
+```
+
+Copilot fetches the README and returns a structured summary. This is the MCP server covered in detail in module 11.
+
+**Round 4 -- Compile a team reference building block**
+
+```text
+Based on what we found, create a short reference summary listing: which PBIP folder structure to follow, how the powerbi-modeling-mcp connects to Power BI Desktop versus a Fabric workspace, and three governance checks a BI team should run before enabling model write operations.
+```
+
+**What success looks like:** A one-page reference your team can review in five minutes before any agent session. This becomes the foundation for the instructions file built in module 12.
+
+**Common failure mode and fix:**
+
+- Failure: The learner asks an agent to configure the full PBIP workflow without first checking whether the team's Fabric workspace grants the necessary permissions.
+- Fix: The research step surfaces Fabric RBAC requirements and the `--readonly` mode option before any change is attempted.
+
 ## Validation Checklist
 
 - [ ] Learner can describe the Research > Ask > Edit > Plan > Agent workflow.

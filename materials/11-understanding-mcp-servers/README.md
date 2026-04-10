@@ -157,6 +157,115 @@ Common failure mode and fix:
 
 See [labs/11-understanding-mcp-servers/README.md](../../labs/11-understanding-mcp-servers/README.md).
 
+## Worked Example: Power BI Semantic Model Maintenance with the Power BI Modeling MCP Server
+
+**Scenario:** The BI team has a Power BI Desktop file containing the company's sales semantic model with 40+ measures across three tables. Measure names are inconsistent (`[Revenue]`, `[Tot Revenue]`, `[Total Rev]`) and no measure has a description. Use the Power BI Modeling MCP Server and GitHub Copilot to fix both problems safely.
+
+**Source:** <https://github.com/microsoft/powerbi-modeling-mcp>
+
+### Install the Power BI Modeling MCP Server
+
+**Recommended path -- VS Code extension:**
+
+1. Open VS Code and go to **Extensions** (`Ctrl+Shift+X`).
+2. Search for `Power BI Modeling MCP`.
+3. Install the extension published by `analysis-services` (Microsoft).
+4. Open GitHub Copilot Chat and confirm `powerbi-modeling-mcp` appears in the tool list.
+
+If the tool does not appear, verify that **MCP servers in Copilot** is enabled in your GitHub Copilot settings at github.com. Enterprise accounts have this disabled by default and require an administrator to enable it.
+
+**Alternative -- npx (any MCP client):**
+
+```json
+{
+  "powerbi-modeling-mcp": {
+    "type": "stdio",
+    "command": "npx",
+    "args": ["-y", "@microsoft/powerbi-modeling-mcp@latest", "--start"]
+  }
+}
+```
+
+### Risk Classification for Power BI MCP Tools
+
+Apply the risk matrix from Step 2 of this module before invoking any tool:
+
+| Risk Level | Tool Category | Example Operations |
+| --- | --- | --- |
+| Low | `dax_query_operations` (read) | Execute a DAX query to check measure output |
+| Low | `measure_operations` (list/get) | List all measures, get a single measure's DAX |
+| Medium | `measure_operations` (update) | Add descriptions, rename measures |
+| Medium | `column_operations` (rename) | Rename a column for naming convention |
+| High | `measure_operations` (delete) | Delete a measure |
+| High | `database_operations` (deploy) | Deploy model to Fabric workspace |
+
+The MCP server prompts for confirmation before the first write operation on each connected model. Never use `--skipconfirmation` in a shared or production environment. Use `--readonly` mode for exploratory or training sessions.
+
+### Step-By-Step: Fix the Sales Model
+
+**Step 1 -- Connect and verify (read-only)**
+
+Open the Power BI Desktop file. In Copilot Chat, run the built-in prompt:
+
+```text
+/ConnectToPowerBIDesktop
+```
+
+Then confirm the connection is live:
+
+```text
+List all tables and the number of measures in each table in the connected sales semantic model.
+```
+
+**What success looks like:** Copilot returns a table showing table names (for example: Sales, Products, Customers) and measure counts for each. No model changes have been made yet.
+
+**Step 2 -- Analyze naming inconsistencies (still read-only)**
+
+```text
+Analyze the naming conventions of all measures in the Sales table. Identify groups of measures that refer to the same concept but use different naming patterns. List each group with the current names and a suggested consistent name.
+```
+
+Copilot calls `measure_operations` (list) and uses the LLM to identify patterns. Example output:
+
+| Group | Current Names | Suggested Consistent Name |
+| --- | --- | --- |
+| Revenue total | `[Revenue]`, `[Tot Revenue]`, `[Total Rev]` | `[Total Revenue]` |
+| Prior year | `[PY Sales]`, `[Prior Yr Sales]` | `[PY Total Revenue]` |
+
+**Step 3 -- Review the rename plan before approving any writes**
+
+```text
+Generate the full list of rename operations needed to standardize measure naming across all tables, but do not execute any renames yet. Show me the before and after names as a table.
+```
+
+This is the human review checkpoint. Inspect the table carefully before proceeding.
+
+**Step 4 -- Execute renames with confirmation**
+
+```text
+Apply the naming convention renames from the previous step. Wait for my confirmation before starting.
+```
+
+The MCP server surfaces a confirmation dialog before the first modification. Select Confirm to proceed. This single confirmation covers the entire batch.
+
+**Step 5 -- Add descriptions to all measures**
+
+```text
+Add descriptions to all measures in the Sales table. For each measure, write a plain-language description of what the metric represents and include a brief note on the DAX logic used.
+```
+
+**Step 6 -- Validate with a DAX query**
+
+```text
+Run a DAX query that returns [Total Revenue], [PY Total Revenue], and the year-over-year percentage change for the last 3 full years. Show me the results.
+```
+
+Copilot uses `dax_query_operations` to execute the query against the live model and returns results directly in chat without requiring you to open a report.
+
+### Data Privacy Reminder
+
+When using the Power BI Modeling MCP Server with GitHub Copilot, semantic model metadata (table names, measure DAX expressions, column names, query results) is sent to the configured LLM provider as part of the conversation. This is the same metadata visible to any Power BI developer with model access. For regulated environments, review your organization's AI data-handling policy before connecting to a production semantic model.
+
 ## Validation Checklist
 
 - [ ] Learner can explain MCP and how it extends agent capabilities.
