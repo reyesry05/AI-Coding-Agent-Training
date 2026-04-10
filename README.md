@@ -28,6 +28,7 @@ This workspace contains training materials for technical teams learning to use G
 - `materials/12-building-custom-agents-skills-and-instructions/README.md`
 - `materials/13-hooks-and-agentic-workflows/README.md`
 - `materials/14-safe-ci-cd-with-ai-agents/README.md`
+- `materials/15-snowflake-cortex-ai-for-data-teams/README.md`
 
 ## Current Labs
 
@@ -45,6 +46,7 @@ This workspace contains training materials for technical teams learning to use G
 - `labs/12-building-custom-agents-skills-and-instructions/README.md`
 - `labs/13-hooks-and-agentic-workflows/README.md`
 - `labs/14-safe-ci-cd-with-ai-agents/README.md`
+- `labs/15-snowflake-cortex-ai-for-data-teams/README.md`
 
 ## Current References
 
